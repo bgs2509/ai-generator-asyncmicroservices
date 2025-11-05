@@ -181,11 +181,13 @@ graph TB
     PGAPI --> PG
     MGAPI --> MG
 
-    style API fill:#4f46e5,color:#fff
-    style BOT fill:#4f46e5,color:#fff
-    style WORKER fill:#4f46e5,color:#fff
-    style PGAPI fill:#7c3aed,color:#fff
-    style MGAPI fill:#7c3aed,color:#fff
+    style API fill:#93c5fd,stroke:#1e40af,stroke-width:3px,color:#1e3a8a
+    style BOT fill:#93c5fd,stroke:#1e40af,stroke-width:3px,color:#1e3a8a
+    style WORKER fill:#93c5fd,stroke:#1e40af,stroke-width:3px,color:#1e3a8a
+    style PGAPI fill:#c4b5fd,stroke:#6d28d9,stroke-width:3px,color:#5b21b6
+    style MGAPI fill:#c4b5fd,stroke:#6d28d9,stroke-width:3px,color:#5b21b6
+    style PG fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a
+    style MG fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a
 ```
 
 ### Core Principles

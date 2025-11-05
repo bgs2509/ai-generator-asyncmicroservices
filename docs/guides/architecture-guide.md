@@ -71,6 +71,18 @@ graph TB
     API -.->|Events| RABBIT
     BOT -.->|Events| RABBIT
     WORKER -.->|Events| RABBIT
+
+    style CLIENT fill:#e0e7ff,stroke:#4338ca,stroke-width:2px,color:#1e3a8a
+    style NGINX fill:#fef3c7,stroke:#d97706,stroke-width:3px,color:#92400e
+    style API fill:#93c5fd,stroke:#1e40af,stroke-width:3px,color:#1e3a8a
+    style BOT fill:#93c5fd,stroke:#1e40af,stroke-width:3px,color:#1e3a8a
+    style WORKER fill:#93c5fd,stroke:#1e40af,stroke-width:3px,color:#1e3a8a
+    style PG fill:#c4b5fd,stroke:#6d28d9,stroke-width:3px,color:#5b21b6
+    style MONGO fill:#c4b5fd,stroke:#6d28d9,stroke-width:3px,color:#5b21b6
+    style POSTGRES fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a
+    style MONGODB fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a
+    style REDIS fill:#fecaca,stroke:#b91c1c,stroke-width:2px,color:#991b1b
+    style RABBIT fill:#fed7aa,stroke:#c2410c,stroke-width:2px,color:#9a3412
 ```
 
 ---

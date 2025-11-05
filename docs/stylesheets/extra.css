@@ -34,3 +34,34 @@
   border-bottom: 2px solid var(--md-default-fg-color--lightest);
   padding-bottom: 0.5rem;
 }
+
+/* Mermaid diagram improvements for better text visibility */
+.mermaid {
+  background-color: transparent !important;
+}
+
+/* Ensure Mermaid text is always readable */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  stroke-width: 2px !important;
+}
+
+.mermaid .nodeLabel,
+.mermaid .edgeLabel {
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+
+/* Better contrast for subgraphs */
+.mermaid .cluster rect {
+  fill: rgba(0, 0, 0, 0.05) !important;
+  stroke: var(--md-default-fg-color--light) !important;
+  stroke-width: 2px !important;
+}
+
+/* Dark theme adjustments */
+[data-md-color-scheme="slate"] .mermaid .cluster rect {
+  fill: rgba(255, 255, 255, 0.05) !important;
+}
