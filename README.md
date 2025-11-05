@@ -84,6 +84,20 @@ git submodule update --init --recursive
 
 **Next:** Point your AI agent to `.ai-framework/AGENTS.md` — it will read the knowledge base and generate code in your project.
 
+### 📚 Documentation
+
+**Complete documentation is available at:**
+🌐 **https://bgs2509.github.io/ai-generator-asyncmicroservices**
+
+The documentation includes:
+- 🚀 **Getting Started Guide** — Quick setup and first project
+- 🏗️ **Architecture Deep Dive** — Understanding the Improved Hybrid Approach
+- 📖 **Service Templates** — Business API, Data API, Workers, Bots
+- 🧪 **Testing Strategies** — Unit, integration, and E2E testing
+- 🔒 **Security Best Practices** — Authentication, authorization, secrets
+- 📊 **Observability** — Logging, metrics, tracing setup
+- 💡 **Real-world Examples** — Complete project examples
+
 ### How to Generate Code with AI
 
 Open your AI assistant (Claude, ChatGPT) and copy-paste this prompt:
@@ -151,6 +165,9 @@ Not sure
 
 ## Table of Contents
 
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [📚 Documentation](https://bgs2509.github.io/ai-generator-asyncmicroservices) 🌐
 - [Key Features](#key-features)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
@@ -258,6 +275,18 @@ your_project/
 ---
 
 ## Documentation
+
+### 🌐 Online Documentation
+**Complete interactive documentation:** https://bgs2509.github.io/ai-generator-asyncmicroservices
+
+Features beautiful Material Design theme with:
+- 🔍 Full-text search across all documentation
+- 📱 Mobile-friendly responsive design
+- 🌓 Dark/Light theme toggle
+- 📊 Interactive architecture diagrams
+- 💻 Syntax-highlighted code examples
+
+### 📂 Quick Links
 
 **For AI Agents:** Start with [AGENTS.md](AGENTS.md) → [AI Workflow](docs/guides/ai-code-generation-master-workflow.md) → [Maturity Levels](docs/reference/maturity-levels.md)
 
