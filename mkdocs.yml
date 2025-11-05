@@ -1,0 +1,175 @@
+site_name: AI Generator for Async Microservices
+site_url: https://bgs2509.github.io/ai-generator-asyncmicroservices
+site_author: bgs2509
+site_description: >-
+  Production-ready framework for generating async microservices with battle-tested architecture.
+  One pattern for all your projects - FastAPI, PostgreSQL, Redis, RabbitMQ, Docker.
+
+repo_name: bgs2509/ai-generator-asyncmicroservices
+repo_url: https://github.com/bgs2509/ai-generator-asyncmicroservices
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2024-2025 bgs2509
+
+theme:
+  name: material
+  language: en
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.action.edit
+    - content.action.view
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bgs2509
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/ai-generator-asyncmicroservices/
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for.
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - tags:
+      tags_file: tags.md
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+      cache_safe: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Quick Start: getting-started/quick-start.md
+      - Installation: getting-started/installation.md
+      - First Project: getting-started/first-project.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Design Principles: architecture/design-principles.md
+      - Service Types: architecture/service-types.md
+      - Detailed Architecture: ARCHITECTURE.md
+  - Guides:
+      - AI Code Generation: guides/ai-code-generation-master-workflow.md
+      - Architecture Guide: guides/architecture-guide.md
+      - Development Commands: guides/development-commands.md
+      - Prompt Validation: guides/prompt-validation-guide.md
+  - Service Templates:
+      - Overview: templates/README.md
+      - Business API: templates/business-api.md
+      - Data API (PostgreSQL): templates/data-postgres-api.md
+      - Data API (MongoDB): templates/data-mongo-api.md
+      - Worker: templates/worker.md
+      - Bot: templates/bot.md
+  - Reference:
+      - Project Structure: reference/project-structure.md
+      - Tech Stack: reference/tech_stack.md
+      - Maturity Levels: reference/maturity-levels.md
+      - Naming Conventions: checklists/service-naming-checklist.md
+  - Examples: EXAMPLES.md
+  - Roadmap: ROADMAP.md
+  - Changelog: CHANGELOG.md
+  - Contributing:
+      - How to Contribute: CONTRIBUTING.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+      - Security Policy: SECURITY.md

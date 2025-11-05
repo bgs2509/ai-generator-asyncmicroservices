@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/bgs2509/ai-generator-asyncmicroservices/tree/main/docs
+    about: Read the comprehensive framework documentation
+  - name: 💬 GitHub Discussions
+    url: https://github.com/bgs2509/ai-generator-asyncmicroservices/discussions
+    about: Ask questions and discuss with the community
+  - name: 🎓 Examples
+    url: https://github.com/bgs2509/ai-generator-asyncmicroservices/blob/main/EXAMPLES.md
+    about: See real-world examples and use cases

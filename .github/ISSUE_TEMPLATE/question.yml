@@ -1,0 +1,82 @@
+name: ❓ Question
+description: Ask a question about the framework
+title: "[QUESTION] "
+labels: ["question"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? We're here to help! Please check the [documentation](https://github.com/bgs2509/ai-generator-asyncmicroservices/tree/main/docs) first.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 📂 Question Category
+      description: What is your question about?
+      options:
+        - Getting Started / Setup
+        - Architecture & Design Patterns
+        - Service Templates Usage
+        - AI Code Generation
+        - Docker & Infrastructure
+        - Testing Strategies
+        - Production Deployment
+        - Best Practices
+        - Troubleshooting
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: ❓ Your Question
+      description: Please describe your question in detail
+      placeholder: I would like to know...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 📋 Context
+      description: Provide any relevant context about what you're trying to achieve
+      placeholder: |
+        I'm building a [type of project]...
+        I've tried [what you've tried]...
+        I'm stuck on [specific issue]...
+
+  - type: textarea
+    id: code
+    attributes:
+      label: 💻 Relevant Code (Optional)
+      description: If applicable, share relevant code snippets
+      placeholder: |
+        ```python
+        # Your code here
+        ```
+      render: python
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: 🔍 What I've Tried
+      description: Have you tried searching documentation or similar issues?
+      placeholder: |
+        - I checked [specific documentation]
+        - I searched for [keywords]
+        - I tried [approach]
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      options:
+        - label: I have searched existing issues and discussions
+          required: true
+        - label: I have checked the documentation
+          required: true
+        - label: This is not a bug report (use Bug Report template instead)
+          required: true

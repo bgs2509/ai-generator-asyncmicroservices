@@ -1,0 +1,108 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+title: "[FEATURE] "
+labels: ["enhancement", "needs-discussion"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a feature! Please provide as much detail as possible.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🎯 Problem Statement
+      description: What problem does this feature solve? Is your feature request related to a problem?
+      placeholder: I'm always frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 Proposed Solution
+      description: Describe the solution you'd like to see
+      placeholder: I would like to see...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: 🔧 Component
+      description: Which component would this feature affect?
+      options:
+        - Service Templates (Business API, Data API, Worker, Bot)
+        - Documentation
+        - Infrastructure (Docker, Nginx)
+        - CI/CD
+        - Testing
+        - AI Code Generation
+        - New Service Type
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternatives Considered
+      description: Describe any alternative solutions or features you've considered
+      placeholder: I've also considered...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: ⚡ Priority
+      description: How important is this feature to you?
+      options:
+        - Critical - Blocking my project
+        - High - Would significantly improve my workflow
+        - Medium - Nice to have
+        - Low - Minor improvement
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: 📖 Use Case
+      description: Describe a specific use case or scenario where this feature would be helpful
+      placeholder: |
+        When building a [type of project]...
+        I need to [specific task]...
+        This feature would help by...
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: 💻 Example Code (Optional)
+      description: If applicable, provide example code showing how you'd like to use this feature
+      placeholder: |
+        ```python
+        # Example usage
+        ```
+      render: python
+
+  - type: textarea
+    id: context
+    attributes:
+      label: 📎 Additional Context
+      description: Any other context, screenshots, or references
+      placeholder: Add any other context here...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      options:
+        - label: I have searched for similar feature requests
+          required: true
+        - label: I have clearly described the problem and solution
+          required: true
+        - label: I am willing to contribute to this feature (if applicable)
+          required: false

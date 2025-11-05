@@ -1,0 +1,1285 @@
+################################################################################
+#                                                                              #
+#                    МАКСИМАЛЬНО ПОДРОБНЫЙ .GITIGNORE                          #
+#                    ДЛЯ МИКРОСЕРВИСНОЙ АРХИТЕКТУРЫ                           #
+#                                                                              #
+#  Этот файл содержит правила игнорирования для Git, покрывающие:            #
+#  - Python окружения и зависимости                                           #
+#  - Node.js и JavaScript проекты                                             #
+#  - Различные IDE и редакторы                                                #
+#  - ОС-специфичные файлы                                                     #
+#  - Docker и контейнеризация                                                 #
+#  - Базы данных и кеши                                                       #
+#  - Логи и временные файлы                                                   #
+#  - Секреты и конфигурации                                                   #
+#  - Build артефакты и скомпилированный код                                   #
+#                                                                              #
+################################################################################
+
+################################################################################
+# PYTHON - Основной язык проекта
+################################################################################
+
+# Байт-скомпилированные файлы Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C расширения для Python
+*.so
+
+# Distribution / packaging - пакеты и дистрибутивы
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-wheel-metadata/
+
+# PyInstaller - обычно эти файлы пишутся скриптом из шаблона
+*.manifest
+*.spec
+
+# Installer logs - логи установщиков
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports - тестирование и покрытие кода
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+test-results/
+junit.xml
+
+# Translations - файлы переводов
+*.mo
+*.pot
+
+# Django stuff - Django специфичные файлы
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Flask stuff - Flask специфичные файлы
+instance/
+.webassets-cache
+
+# Scrapy stuff - веб-скрейпинг фреймворк
+.scrapy
+
+# Sphinx documentation - документация
+docs/_build/
+docs/.doctrees/
+doc/_build/
+target/
+
+# PyBuilder - инструмент сборки Python проектов
+.pybuilder/
+target/
+
+# Jupyter Notebook - интерактивные блокноты
+.ipynb_checkpoints
+*.ipynb
+!docs/*.ipynb
+!examples/*.ipynb
+
+# IPython - интерактивная оболочка Python
+profile_default/
+ipython_config.py
+
+# pyenv - менеджер версий Python
+.python-version
+
+# pipenv - управление зависимостями и виртуальными окружениями
+Pipfile.lock
+
+# poetry - современный менеджер зависимостей Python
+poetry.lock
+
+# pdm - Project Development Manager
+.pdm.toml
+pdm.lock
+
+# PEP 582 - локальные пакеты
+__pypackages__/
+
+# Celery stuff - распределенная очередь задач
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Виртуальные окружения Python - все возможные варианты
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.virtualenv/
+virtualenv/
+pythonenv*/
+
+# Spyder project settings - IDE для научных вычислений
+.spyderproject
+.spyproject
+
+# Rope project settings - библиотека рефакторинга
+.ropeproject
+
+# mkdocs documentation - генератор статической документации
+/site
+
+# mypy - статический анализатор типов
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker - анализатор типов от Facebook
+.pyre/
+
+# pytype static type analyzer - анализатор типов от Google
+.pytype/
+
+# Cython debug symbols - отладочные символы Cython
+cython_debug/
+
+
+################################################################################
+# NODE.JS & JAVASCRIPT - для фронтенда и инструментов
+################################################################################
+
+# Зависимости Node.js
+node_modules/
+jspm_packages/
+bower_components/
+
+# Snowpack dependency directory
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# npm специфичные файлы
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Diagnostic reports от Node.js
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Runtime data - данные времени выполнения
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs - инструментированные библиотеки
+lib-cov
+
+# Coverage directory используемая инструментами типа nyc
+coverage/
+*.lcov
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+
+# TypeScript compiled output
+*.js.map
+*.d.ts
+dist/
+out/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack' и yarn pack
+*.tgz
+
+# Yarn - менеджер пакетов
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# parcel-bundler cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Temporary folders
+tmp/
+temp/
+
+
+################################################################################
+# JAVA & JVM LANGUAGES - для микросервисов на Java/Kotlin/Scala
+################################################################################
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+!gradle-wrapper.jar
+gradle-app.setting
+!gradle-wrapper.properties
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+
+################################################################################
+# GO LANGUAGE - для микросервисов на Go
+################################################################################
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+
+################################################################################
+# RUST - для высокопроизводительных сервисов
+################################################################################
+
+# Generated by Cargo
+Cargo.lock
+target/
+
+# Debug символы
+**/*.rs.bk
+
+# Backup files
+*.orig
+
+
+################################################################################
+# RUBY - для микросервисов на Ruby/Rails
+################################################################################
+
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+rdoc/
+
+# Bundler
+.bundle/
+vendor/bundle
+
+# Sass preprocessor
+.sass-cache/
+
+
+################################################################################
+# PHP - для микросервисов на PHP/Laravel
+################################################################################
+
+# Composer
+composer.phar
+/vendor/
+composer.lock
+
+# Laravel specific
+/bootstrap/compiled.php
+/app/storage/
+.env.*.php
+.env.php
+
+# PHPUnit
+/phpunit.xml
+.phpunit.result.cache
+
+
+################################################################################
+# C/C++ - нативные расширения и библиотеки
+################################################################################
+
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+
+################################################################################
+# DOCKER & КОНТЕЙНЕРИЗАЦИЯ
+################################################################################
+
+# Docker compose override files - локальные переопределения
+docker-compose.override.yml
+docker-compose.override.yaml
+docker-compose.local.yml
+docker-compose.local.yaml
+
+# Docker volumes - данные томов
+.docker/
+docker-volumes/
+volumes/
+
+# Docker build cache
+.dockercache/
+
+# Kubernetes secrets и локальные конфиги
+k8s-local/
+*.kubeconfig
+kubeconfig
+
+
+################################################################################
+# БАЗЫ ДАННЫХ - файлы БД и дампы
+################################################################################
+
+# SQLite
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# PostgreSQL
+*.pgsql
+*.backup
+*.dump
+
+# MySQL
+*.sql
+*.mysql
+
+# Redis
+dump.rdb
+appendonly.aof
+
+# MongoDB
+*.bson
+
+# LevelDB
+*.ldb
+
+# RocksDB
+*.sst
+*.log
+
+
+################################################################################
+# ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ И СЕКРЕТЫ - КРИТИЧЕСКИ ВАЖНО!
+################################################################################
+
+# Environment files - файлы с переменными окружения
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+.envrc
+
+# Secrets и ключи
+secrets/
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa
+id_rsa.pub
+*.asc
+
+# AWS credentials
+.aws/
+credentials
+
+# GCP credentials
+*-gcp-key.json
+*-service-account.json
+gcloud-service-key.json
+
+# Azure credentials
+.azure/
+
+# SSH keys
+*.ppk
+known_hosts
+
+# API keys и tokens
+.api-keys
+*.token
+.tokens
+
+
+################################################################################
+# IDE И РЕДАКТОРЫ - настройки различных сред разработки
+################################################################################
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+
+# JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+cmake-build-*/
+*.swp
+*~.nib
+
+# Eclipse
+.settings/
+.metadata/
+.classpath
+.project
+.externalToolBuilders/
+*.launch
+*.pydevproject
+.cproject
+.buildpath
+.target
+.texlipse
+.springBeans
+.recommenders/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+.sublime/
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+*~
+tags
+[._]*.un~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+.org-id-locations
+*_archive
+*_flymake.*
+/eshell/history
+/eshell/lastdir
+/elpa/
+*.rel
+/auto/
+.cask/
+flycheck_*.el
+.projectile
+
+# Atom
+.atom/
+
+# Xcode
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.xcuserstate
+
+
+################################################################################
+# ОПЕРАЦИОННЫЕ СИСТЕМЫ - системные файлы
+################################################################################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+
+################################################################################
+# ЛОГИ И МОНИТОРИНГ - файлы логов и метрик
+################################################################################
+
+# Log files - все типы логов
+*.log
+*.log.*
+logs/
+log/
+*.log[0-9]
+*.log.gz
+*.log.zip
+
+# Application logs
+application.log
+error.log
+access.log
+debug.log
+info.log
+warn.log
+critical.log
+
+# Monitoring и metrics
+metrics/
+prometheus/
+grafana/
+*.rrd
+
+# Trace files
+*.trace
+traces/
+
+# Profiling data
+*.prof
+*.pprof
+*.hprof
+
+# Core dumps
+core
+core.*
+*.core
+
+
+################################################################################
+# КЕШИРОВАНИЕ И ВРЕМЕННЫЕ ФАЙЛЫ
+################################################################################
+
+# Cache directories
+cache/
+.cache/
+*.cache
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.backup
+*~
+.~*
+
+# Thumbnails
+thumbs/
+thumbnails/
+._*
+
+# Session files
+*.session
+.session/
+sessions/
+
+
+################################################################################
+# BUILD АРТЕФАКТЫ И СКОМПИЛИРОВАННЫЕ ФАЙЛЫ
+################################################################################
+
+# Build directories
+build/
+builds/
+dist/
+out/
+output/
+bin/
+obj/
+
+# Compiled files
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.class
+*.pyc
+*.pyo
+
+# Package files
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+*.gz
+*.bz2
+*.xz
+
+# Artifacts
+artifacts/
+.artifacts/
+
+
+################################################################################
+# ТЕСТИРОВАНИЕ - тестовые данные и отчеты
+################################################################################
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+.nyc_output/
+*.lcov
+
+# Test results
+test-results/
+test-output/
+*.junit.xml
+*.trx
+TestResults/
+
+# Test databases
+test.db
+test.sqlite
+test.sqlite3
+
+# Mock data
+mocks/
+__mocks__/
+fixtures/
+
+
+################################################################################
+# ДОКУМЕНТАЦИЯ И СТАТИЧЕСКИЕ САЙТЫ
+################################################################################
+
+# Generated documentation
+docs/_build/
+docs/build/
+site/
+_site/
+.docusaurus/
+.jekyll-cache/
+.jekyll-metadata
+
+# Doxygen
+html/
+latex/
+
+# MkDocs
+mkdocs_site/
+
+
+################################################################################
+# PACKAGE MANAGERS - файлы менеджеров пакетов
+################################################################################
+
+# npm
+package-lock.json
+npm-shrinkwrap.json
+
+# Yarn
+yarn.lock
+.yarn/
+.pnp.*
+
+# pnpm
+pnpm-lock.yaml
+
+# Composer (PHP)
+composer.lock
+
+# Bundler (Ruby)
+Gemfile.lock
+
+# Go modules
+go.sum
+
+# Cargo (Rust)
+Cargo.lock
+
+
+################################################################################
+# CI/CD - артефакты непрерывной интеграции
+################################################################################
+
+# Jenkins
+.jenkins/
+
+# GitLab
+.gitlab-ci-local/
+
+# CircleCI
+.circleci/local/
+
+# Travis CI
+.travis/
+
+# GitHub Actions
+.github/workflows/local/
+
+# Build logs
+build.log
+*.build.log
+
+
+################################################################################
+# CLOUD PROVIDERS - специфичные файлы облачных провайдеров
+################################################################################
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+terraform.tfvars
+*.auto.tfvars
+
+# Ansible
+*.retry
+.ansible/
+
+# Serverless Framework
+.serverless/
+
+# AWS SAM
+.aws-sam/
+samconfig.toml
+
+# Pulumi
+Pulumi.*.yaml
+!Pulumi.yaml
+
+
+################################################################################
+# МЕДИА ФАЙЛЫ - большие файлы и медиа (обычно не в репозитории)
+################################################################################
+
+# Images (если не являются частью UI/дизайна)
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+# *.bmp
+# *.tiff
+# *.ico
+# *.svg
+
+# Videos
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# Audio
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+
+# Large files
+*.psd
+*.ai
+*.sketch
+
+
+################################################################################
+# ВЕРСИОНИРОВАНИЕ И БЭКАПЫ
+################################################################################
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*~
+
+# Patch files
+*.patch
+*.diff
+*.rej
+
+# Archive files (старые версии)
+*.tar.gz.old
+*.zip.bak
+
+
+################################################################################
+# MISC - прочие файлы
+################################################################################
+
+# Editor directories и files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Python virtual environments
+venv/
+env/
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# IDE settings
+.vscode/
+.idea/
+
+
+################################################################################
+# СПЕЦИФИЧНЫЕ ДЛЯ МИКРОСЕРВИСОВ
+################################################################################
+
+# Service-specific config overrides
+**/config.local.yml
+**/config.local.yaml
+**/config.local.json
+**/.env.local
+
+# Generated proto files
+**/generated/
+**/*_pb2.py
+**/*_pb2_grpc.py
+**/*.pb.go
+
+# Message broker data
+rabbitmq/
+kafka-data/
+nats-data/
+
+# Service mesh configs
+istio-local/
+linkerd-local/
+
+# API Gateway configs
+kong-local/
+nginx-local/
+
+# Load balancer data
+haproxy/data/
+traefik/acme.json
+
+
+################################################################################
+# DATA SCIENCE & ML - для AI/ML проектов
+################################################################################
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Model files (обычно большие)
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.pt
+*.pth
+*.onnx
+*.pb
+*.tflite
+*.caffemodel
+*.mlmodel
+
+# Training data (обычно не в репозитории)
+data/raw/
+data/processed/
+datasets/
+*.csv
+*.tsv
+*.parquet
+
+# TensorBoard logs
+runs/
+tensorboard/
+lightning_logs/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Weights & Biases
+wandb/
+
+# DVC
+.dvc/
+*.dvc
+
+
+################################################################################
+# БЕЗОПАСНОСТЬ - файлы безопасности
+################################################################################
+
+# Private keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# Certificates
+*.crt
+*.cer
+*.cert
+*.der
+
+# GPG keys
+*.gpg
+*.asc
+secring.*
+
+# OAuth tokens
+.oauth-token
+oauth.json
+
+# Session files
+.session
+*.session
+
+
+################################################################################
+# PERFORMANCE & PROFILING
+################################################################################
+
+# Profiling results
+*.prof
+*.pprof
+*.perf
+*.trace
+
+# Benchmarks
+benchmark-results/
+*.bench
+
+# Memory dumps
+*.hprof
+*.heapsnapshot
+*.mdmp
+
+
+################################################################################
+# ЛОКАЛЬНЫЕ ПЕРЕОПРЕДЕЛЕНИЯ - для разработчиков
+################################################################################
+
+# Local configuration overrides
+*.local
+*.local.*
+local.*
+local/
+
+# Personal notes и TODO
+TODO.local
+NOTES.local
+.personal/
+
+# Scratch files
+scratch/
+playground/
+sandbox/
+
+
+################################################################################
+#                          КОНЕЦ ФАЙЛА                                        #
+################################################################################
+
+# Примечание: Этот .gitignore создан с учетом максимального покрытия
+# различных технологий и сценариев использования в микросервисной архитектуре.
+# Некоторые правила могут быть избыточными для вашего конкретного проекта.
+# Рекомендуется периодически пересматривать и адаптировать под нужды проекта.
+
+# Для добавления исключений используйте символ ! перед паттерном:
+# !important-file.log
+
+# Для игнорирования только в корне репозитория используйте / в начале:
+# /config.local.yml
+
+# Для игнорирования во всех подкаталогах используйте **/:
+# **/node_modules/

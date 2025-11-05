@@ -1,0 +1,136 @@
+name: Validate Documentation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '**.md'
+      - 'mkdocs.yml'
+  push:
+    branches:
+      - main
+
+jobs:
+  markdown-lint:
+    name: Lint Markdown Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v15
+        with:
+          globs: |
+            **/*.md
+            !node_modules/**
+            !.git/**
+
+  check-links:
+    name: Check Documentation Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements-docs.txt
+
+      - name: Build documentation
+        run: |
+          mkdocs build --strict --verbose
+
+      - name: Check for build artifacts
+        run: |
+          if [ ! -d "site" ]; then
+            echo "❌ Documentation build failed!"
+            exit 1
+          fi
+          echo "✅ Documentation built successfully!"
+
+  validate-structure:
+    name: Validate Documentation Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          REQUIRED_FILES=(
+            "README.md"
+            "CONTRIBUTING.md"
+            "CODE_OF_CONDUCT.md"
+            "LICENSE"
+            "SECURITY.md"
+            "CHANGELOG.md"
+            "ROADMAP.md"
+            "ARCHITECTURE.md"
+            "EXAMPLES.md"
+            "AGENTS.md"
+            "mkdocs.yml"
+            "docs/index.md"
+          )
+
+          MISSING_FILES=()
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              MISSING_FILES+=("$file")
+            fi
+          done
+
+          if [ ${#MISSING_FILES[@]} -gt 0 ]; then
+            echo "❌ Missing required files:"
+            printf '%s\n' "${MISSING_FILES[@]}"
+            exit 1
+          fi
+
+          echo "✅ All required files present!"
+
+      - name: Validate docs structure
+        run: |
+          REQUIRED_DIRS=(
+            "docs/atomic"
+            "docs/guides"
+            "docs/reference"
+            "docs/checklists"
+            "templates/services"
+          )
+
+          MISSING_DIRS=()
+          for dir in "${REQUIRED_DIRS[@]}"; do
+            if [ ! -d "$dir" ]; then
+              MISSING_DIRS+=("$dir")
+            fi
+          done
+
+          if [ ${#MISSING_DIRS[@]} -gt 0 ]; then
+            echo "❌ Missing required directories:"
+            printf '%s\n' "${MISSING_DIRS[@]}"
+            exit 1
+          fi
+
+          echo "✅ All required directories present!"
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [markdown-lint, check-links, validate-structure]
+    if: always()
+    steps:
+      - name: Check results
+        run: |
+          if [ "${{ needs.markdown-lint.result }}" != "success" ] || \
+             [ "${{ needs.check-links.result }}" != "success" ] || \
+             [ "${{ needs.validate-structure.result }}" != "success" ]; then
+            echo "❌ Some validation checks failed!"
+            exit 1
+          fi
+          echo "✅ All validation checks passed!"
