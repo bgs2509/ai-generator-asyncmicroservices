@@ -166,17 +166,30 @@ graph TB
         MGAPI[Data Service<br/>MongoDB API]
     end
 
+    subgraph Infrastructure["INFRASTRUCTURE"]
+        REDIS[(Redis<br/>Cache & Sessions)]
+        RABBIT[RabbitMQ<br/>Message Broker]
+    end
+
     subgraph Storage["STORAGE"]
         PG[(PostgreSQL)]
         MG[(MongoDB)]
     end
 
-    API -->|HTTP Only| PGAPI
-    API -->|HTTP Only| MGAPI
-    BOT -->|HTTP Only| PGAPI
-    BOT -->|HTTP Only| MGAPI
-    WORKER -->|HTTP Only| PGAPI
-    WORKER -->|HTTP Only| MGAPI
+    API -->|HTTP Only<br/>Sync| PGAPI
+    API -->|HTTP Only<br/>Sync| MGAPI
+    BOT -->|HTTP Only<br/>Sync| PGAPI
+    BOT -->|HTTP Only<br/>Sync| MGAPI
+    WORKER -->|HTTP Only<br/>Sync| PGAPI
+    WORKER -->|HTTP Only<br/>Sync| MGAPI
+
+    API -.->|Events<br/>Async| RABBIT
+    BOT -.->|Events<br/>Async| RABBIT
+    WORKER -.->|Events<br/>Async| RABBIT
+
+    API -.->|Cache| REDIS
+    BOT -.->|Sessions| REDIS
+    WORKER -.->|Cache| REDIS
 
     PGAPI --> PG
     MGAPI --> MG
@@ -188,16 +201,20 @@ graph TB
     style MGAPI fill:#c4b5fd,stroke:#6d28d9,stroke-width:3px,color:#5b21b6
     style PG fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a
     style MG fill:#dbeafe,stroke:#1e40af,stroke-width:2px,color:#1e3a8a
+    style REDIS fill:#fecaca,stroke:#b91c1c,stroke-width:3px,color:#991b1b
+    style RABBIT fill:#fed7aa,stroke:#c2410c,stroke-width:3px,color:#9a3412
 ```
 
 ### Core Principles
 
-1. **HTTP-Only Data Access** — Business services NEVER access databases directly
-2. **Single Event Loop Ownership** — Each service owns its event loop (no sharing)
-3. **DDD & Hexagonal Architecture** — Clear domain boundaries and ports/adapters
-4. **Async-First** — All I/O operations use async/await
-5. **Type Safety** — Full type hints, mypy strict mode compatible
-6. **Observability by Design** — Structured logging, metrics, tracing built-in
+1. **HTTP-Only Data Access** — Business services NEVER access databases directly (use Data APIs)
+2. **Event-Driven Communication** — RabbitMQ for async inter-service messaging (pub/sub, events)
+3. **Caching Strategy** — Redis for caching, sessions, and rate limiting
+4. **Single Event Loop Ownership** — Each service owns its event loop (no conflicts)
+5. **DDD & Hexagonal Architecture** — Clear domain boundaries and ports/adapters
+6. **Async-First** — All I/O operations use async/await
+7. **Type Safety** — Full type hints, mypy strict mode compatible
+8. **Observability by Design** — Structured logging, metrics, tracing built-in
 
 ---
 
