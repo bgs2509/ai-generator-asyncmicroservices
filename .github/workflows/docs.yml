@@ -3,7 +3,7 @@ name: Deploy Documentation to HTML
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'docs/**'
       - 'mkdocs.yml'

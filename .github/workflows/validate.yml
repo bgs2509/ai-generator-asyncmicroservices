@@ -8,7 +8,7 @@ on:
       - 'mkdocs.yml'
   push:
     branches:
-      - main
+      - master
 
 jobs:
   markdown-lint:
