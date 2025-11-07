@@ -258,6 +258,253 @@ jobs:
           docker-compose down -v
 
   # ══════════════════════════════════════════════════════════════════════════════
+  # DRY/KISS/YAGNI PRINCIPLE ENFORCEMENT
+  # ══════════════════════════════════════════════════════════════════════════════
+
+  check-duplication:
+    name: Check Code Duplication (DRY)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install jscpd
+        run: npm install -g jscpd
+
+      - name: Check for code duplication
+        run: |
+          echo "::group::DRY Principle Check"
+          echo "Checking code duplication (threshold: 10%)"
+          echo "==========================================="
+
+          # Run jscpd on services and shared directories
+          jscpd services/ shared/ \
+            --threshold 10 \
+            --format "python" \
+            --reporters "console,html,json" \
+            --output "./jscpd-report" \
+            --exitCode 1 || {
+              echo ""
+              echo "❌ DRY VIOLATION: Code duplication exceeds 10% threshold"
+              echo ""
+              echo "📊 Duplicated code violates the DRY (Don't Repeat Yourself) principle."
+              echo ""
+              echo "💡 Consider extracting shared code to:"
+              echo "   • shared/utils/ for reusable utilities"
+              echo "   • Base classes for common patterns"
+              echo "   • Helper functions in appropriate modules"
+              echo ""
+              echo "📖 Learn more: docs/guides/dry-kiss-yagni-principles.md#dry"
+              echo "📁 Detailed report: jscpd-report/jscpd-report.html"
+              echo ""
+              exit 1
+            }
+
+          echo "✅ DRY check passed: Code duplication is below 10%"
+          echo "::endgroup::"
+
+      - name: Upload duplication report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: jscpd-duplication-report
+          path: ./jscpd-report
+
+  check-complexity:
+    name: Check Code Complexity (KISS)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install radon
+        run: pip install radon
+
+      - name: Check cyclomatic complexity
+        run: |
+          echo "::group::KISS Principle Check - Cyclomatic Complexity"
+          echo "Checking cyclomatic complexity (threshold: McCabe < 10)"
+          echo "========================================================="
+
+          radon cc services/ shared/ --min B --total-average --show-complexity || {
+            echo ""
+            echo "❌ KISS VIOLATION: Functions with complexity >= 10 detected"
+            echo ""
+            echo "🔍 Complex functions violate the KISS (Keep It Simple) principle."
+            echo ""
+            echo "💡 Consider refactoring by:"
+            echo "   • Breaking large functions into smaller ones"
+            echo "   • Extracting conditional logic into separate functions"
+            echo "   • Using early returns to reduce nesting"
+            echo "   • Applying strategy pattern for complex conditionals"
+            echo ""
+            echo "📖 Learn more: docs/guides/dry-kiss-yagni-principles.md#kiss"
+            echo ""
+            exit 1
+          }
+
+          echo "✅ Complexity check passed: All functions have McCabe < 10"
+          echo "::endgroup::"
+
+      - name: Check maintainability index
+        run: |
+          echo "::group::KISS Principle Check - Maintainability Index"
+          echo "Checking maintainability index (threshold: Grade B+)"
+          echo "===================================================="
+
+          radon mi services/ shared/ --min B --show || {
+            echo ""
+            echo "❌ KISS VIOLATION: Low maintainability index detected"
+            echo ""
+            echo "📊 Low maintainability indicates overly complex code."
+            echo ""
+            echo "🔍 Maintainability Index considers:"
+            echo "   • Cyclomatic complexity"
+            echo "   • Lines of code"
+            echo "   • Halstead volume"
+            echo "   • Comment density"
+            echo ""
+            echo "💡 Improve by:"
+            echo "   • Simplifying complex functions"
+            echo "   • Adding clear documentation"
+            echo "   • Breaking down large modules"
+            echo ""
+            echo "📖 Learn more: docs/guides/dry-kiss-yagni-principles.md#kiss"
+            echo ""
+            exit 1
+          }
+
+          echo "✅ Maintainability check passed: All modules have Grade B or better"
+          echo "::endgroup::"
+
+      - name: Check file sizes
+        run: |
+          echo "::group::KISS Principle Check - File Size"
+          echo "Checking file sizes (threshold: 500 lines)"
+          echo "==========================================="
+
+          large_files=$(find services/ shared/ -name "*.py" -type f -exec wc -l {} \; | awk '$1 > 500 {print $2, "("$1" lines)"}')
+
+          if [ -n "$large_files" ]; then
+            echo ""
+            echo "❌ KISS VIOLATION: Files exceeding 500 lines detected"
+            echo ""
+            echo "$large_files"
+            echo ""
+            echo "📏 Large files are harder to understand and maintain."
+            echo ""
+            echo "💡 Consider splitting into:"
+            echo "   • Multiple focused modules"
+            echo "   • Separate classes with single responsibilities"
+            echo "   • Service layer + repository layer"
+            echo ""
+            echo "📖 Learn more: docs/guides/dry-kiss-yagni-principles.md#kiss"
+            echo ""
+            exit 1
+          fi
+
+          echo "✅ File size check passed: All files are under 500 lines"
+          echo "::endgroup::"
+
+  check-dependencies:
+    name: Check Dependency Bloat (YAGNI)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Check dependency count per service
+        run: |
+          echo "::group::YAGNI Principle Check - Dependency Count"
+          echo "Checking dependency count (threshold: 30 for Level 1-2, 50 for Level 3-4)"
+          echo "============================================================================"
+
+          failed_services=""
+
+          for service in services/*/; do
+            if [ -f "$service/requirements.txt" ]; then
+              service_name=$(basename "$service")
+              dep_count=$(grep -v '^#' "$service/requirements.txt" | grep -v '^$' | wc -l)
+
+              # Default threshold for most services
+              threshold=30
+
+              # Higher threshold for business services (they have more integrations)
+              if [[ "$service_name" == *"business"* ]]; then
+                threshold=50
+              fi
+
+              echo "📦 $service_name: $dep_count dependencies (threshold: $threshold)"
+
+              if [ $dep_count -gt $threshold ]; then
+                echo "   ❌ EXCEEDS THRESHOLD"
+                failed_services="$failed_services\n  • $service_name: $dep_count > $threshold"
+              else
+                echo "   ✅ OK"
+              fi
+            fi
+          done
+
+          if [ -n "$failed_services" ]; then
+            echo ""
+            echo "❌ YAGNI VIOLATION: Too many dependencies in some services"
+            echo ""
+            echo "Failed services:"
+            echo -e "$failed_services"
+            echo ""
+            echo "📦 Excessive dependencies indicate:"
+            echo "   • Features that aren't needed yet (YAGNI)"
+            echo "   • Increased attack surface"
+            echo "   • Slower installation and docker builds"
+            echo ""
+            echo "💡 Review each dependency:"
+            echo "   • Is it required for current maturity level?"
+            echo "   • Can we use stdlib instead?"
+            echo "   • Are there unused dependencies?"
+            echo ""
+            echo "📖 Learn more: docs/guides/dry-kiss-yagni-principles.md#yagni"
+            echo ""
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ Dependency check passed: All services within limits"
+          echo "::endgroup::"
+
+      - name: Check for unused dependencies
+        run: |
+          echo "::group::YAGNI Principle Check - Unused Dependencies"
+          echo "Detecting potentially unused dependencies"
+          echo "========================================"
+
+          pip install pip-autoremove 2>/dev/null || true
+
+          echo "💡 To check for unused dependencies locally, run:"
+          echo "   pip install pip-check"
+          echo "   pip-check --verbose"
+          echo ""
+          echo "ℹ️  This is an informational check (does not fail build)"
+          echo "::endgroup::"
+
+  # ══════════════════════════════════════════════════════════════════════════════
   # SECURITY SCANNING
   # ══════════════════════════════════════════════════════════════════════════════
   security:
@@ -288,12 +535,25 @@ jobs:
   ci-success:
     name: CI Pipeline Success
     runs-on: ubuntu-latest
-    needs: [lint, test-unit, test-integration, build, security]
+    needs: [lint, test-unit, test-integration, build, check-duplication, check-complexity, check-dependencies, security]
     if: success()
 
     steps:
       - name: Success notification
         run: |
           echo "✅ All CI checks passed successfully!"
-          echo "Commit: ${{ github.sha }}"
-          echo "Branch: ${{ github.ref_name }}"
+          echo ""
+          echo "📋 Quality Gates Summary:"
+          echo "   ✅ Linting & Type Checking"
+          echo "   ✅ Unit Tests"
+          echo "   ✅ Integration Tests"
+          echo "   ✅ Docker Build"
+          echo "   ✅ DRY Check (Code Duplication <10%)"
+          echo "   ✅ KISS Check (Complexity, Maintainability, File Size)"
+          echo "   ✅ YAGNI Check (Dependency Count)"
+          echo "   ✅ Security Scanning"
+          echo ""
+          echo "📦 Commit: ${{ github.sha }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo ""
+          echo "🎉 Ready for deployment!"

@@ -92,6 +92,7 @@ Common anti-patterns encountered in production, documented with symptoms and sol
 - [Agent Verification Checklist](quality/agent-verification-checklist.md) — release quality gates
 - [QA Report Template](quality/qa-report-template.md) — final QA handoff format
 - [Service Naming Checklist](checklists/service-naming-checklist.md) — 3-part vs 4-part decision tool
+- [Automated Quality Gates](quality/automated-quality-gates.md) — CI pipeline enforcement of DRY/KISS/YAGNI principles
 
 ### Style & Contribution
 - [STYLE_GUIDE.md](STYLE_GUIDE.md) — documentation formatting standards and conventions
