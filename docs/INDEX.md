@@ -8,6 +8,7 @@ The documentation is organised into atomic knowledge modules. Use this index as 
 |------|-------|
 | Understand architecture | [Improved Hybrid Overview](atomic/architecture/improved-hybrid-overview.md) |
 | Learn core principles (DRY/KISS/YAGNI) | [DRY, KISS, YAGNI Principles](guides/dry-kiss-yagni-principles.md) |
+| **Migrate existing project to Phase 1** | [**Migration Guide: Phase 1**](guides/migration-guide-phase1.md) |
 | Implement a FastAPI service | [FastAPI Basic Setup](atomic/services/fastapi/basic-setup.md) |
 | Configure integrations | [Redis Connection Management](atomic/integrations/redis/connection-management.md) |
 | Prepare infrastructure | [PostgreSQL Setup](atomic/infrastructure/databases/postgresql-setup.md) |
