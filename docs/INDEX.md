@@ -12,6 +12,50 @@ The documentation is organised into atomic knowledge modules. Use this index as 
 | Prepare infrastructure | [PostgreSQL Setup](atomic/infrastructure/databases/postgresql-setup.md) |
 | Set up observability | [Structured Logging Patterns](atomic/observability/logging/structured-logging.md) |
 | Align testing strategy | [Pytest Setup](atomic/testing/unit-testing/pytest-setup.md) |
+| Debug production issues | [Anti-Pattern Quick Reference](#anti-pattern-quick-reference) (see below) |
+
+## Anti-Pattern Quick Reference
+
+Common anti-patterns encountered in production, documented with symptoms and solutions. Each anti-pattern is embedded in its relevant atomic document with WRONG/CORRECT code examples and monitoring commands.
+
+**Priority Classification**:
+- 🔴 **CRITICAL**: Production crashes, data loss, security vulnerabilities
+- 🟠 **HIGH**: Silent failures, debugging issues, breaking changes
+- 🟡 **MEDIUM**: Performance degradation, maintainability issues
+
+### Resource Management (🔴 CRITICAL)
+
+| Anti-Pattern | Document | Impact | Priority |
+|--------------|----------|--------|----------|
+| Global FSM Storage Never Closed | [State Management](atomic/services/aiogram/state-management.md#global-fsm-storage-never-closed) | Memory exhaustion, crashes after 3-7 days uptime | 🔴 CRITICAL |
+| HTTP Client Proliferation | [HTTP Client Patterns](atomic/integrations/http-communication/http-client-patterns.md#http-client-proliferation) | Connection pool exhaustion, "connection reset" errors | 🔴 CRITICAL |
+| Connection Pool Misuse | [Connection Management](atomic/integrations/redis/connection-management.md#connection-pool-misuse) | Redis connection leaks, "max clients reached" | 🔴 CRITICAL |
+
+### Error Handling (🟠 HIGH)
+
+| Anti-Pattern | Document | Impact | Priority |
+|--------------|----------|--------|----------|
+| Silent Exception Swallowing | [Error Handling](atomic/services/fastapi/error-handling.md#silent-exception-swallowing) | Silent data loss, impossible debugging | 🟠 HIGH |
+
+### Lifecycle Management (🟠 HIGH)
+
+| Anti-Pattern | Document | Impact | Priority |
+|--------------|----------|--------|----------|
+| Deprecated Lifecycle APIs | [Lifespan Management](atomic/services/fastapi/lifespan-management.md#deprecated-lifecycle-apis) | Breaking changes on FastAPI 0.109+ upgrade | 🟠 HIGH |
+| No Graceful Shutdown | [Graceful Shutdown](atomic/integrations/cross-service/graceful-shutdown.md#no-graceful-shutdown) | 500 errors during deployment, data loss | 🟠 HIGH |
+
+### Common Symptoms → Anti-Pattern Lookup
+
+| Symptom | Likely Anti-Pattern | Document |
+|---------|---------------------|----------|
+| "too many open files" error | Global FSM Storage Never Closed | [State Management](atomic/services/aiogram/state-management.md#global-fsm-storage-never-closed) |
+| Memory grows continuously | HTTP Client Proliferation / Connection Pool Misuse | [HTTP Client Patterns](atomic/integrations/http-communication/http-client-patterns.md#http-client-proliferation) |
+| "connection reset by peer" | HTTP Client Proliferation / No Graceful Shutdown | [Graceful Shutdown](atomic/integrations/cross-service/graceful-shutdown.md#no-graceful-shutdown) |
+| Operations fail silently | Silent Exception Swallowing | [Error Handling](atomic/services/fastapi/error-handling.md#silent-exception-swallowing) |
+| Deprecation warnings | Deprecated Lifecycle APIs | [Lifespan Management](atomic/services/fastapi/lifespan-management.md#deprecated-lifecycle-apis) |
+| 500 errors during deploy | No Graceful Shutdown | [Graceful Shutdown](atomic/integrations/cross-service/graceful-shutdown.md#no-graceful-shutdown) |
+
+**Note**: All anti-patterns include monitoring commands (`docker stats`, `netstat`, `redis-cli`) to detect issues in production.
 
 ## Documentation Pillars
 

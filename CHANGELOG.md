@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **📚 Anti-Pattern Documentation**: Integrated production-tested anti-patterns across atomic documents
+  - **TEMPLATE.md**: Added Anti-Patterns section template with WRONG/CORRECT code example structure
+  - **CONTRIBUTING.md**: Added comprehensive anti-pattern contribution guidelines with priority classification
+  - **INDEX.md**: Added Anti-Pattern Quick Reference table with symptom-based lookup
+  - **🔴 CRITICAL Anti-Patterns**:
+    - Global FSM Storage Never Closed → `atomic/services/aiogram/state-management.md`
+    - HTTP Client Proliferation → `atomic/integrations/http-communication/http-client-patterns.md`
+    - Connection Pool Misuse → `atomic/integrations/redis/connection-management.md`
+  - **🟠 HIGH Priority Anti-Patterns**:
+    - Silent Exception Swallowing → `atomic/services/fastapi/error-handling.md`
+    - Deprecated Lifecycle APIs → `atomic/services/fastapi/lifespan-management.md`
+    - No Graceful Shutdown → `atomic/integrations/cross-service/graceful-shutdown.md`
+  - All anti-patterns include monitoring commands (`docker stats`, `netstat`, `redis-cli CLIENT LIST`)
+  - Source: Activity Tracker Bot ADR-20251107-001 (production lessons learned)
+
 ### Planned
 - Example projects (Telemedicine, P2P Lending)
 - Enhanced service templates with WebSocket support

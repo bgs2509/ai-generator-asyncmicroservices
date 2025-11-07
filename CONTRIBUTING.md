@@ -89,6 +89,49 @@ cp docs/atomic/TEMPLATE.md docs/atomic/{category}/{your-topic}.md
 | **Practical** | Include working code examples | Real-world guidance |
 | **Current** | Use latest versions (Python 3.12+) | No outdated patterns |
 
+### Anti-Pattern Documentation Guidelines
+
+**When to document an anti-pattern:**
+- Pattern causes production failures (crashes, data loss, memory leaks)
+- Pattern is commonly misunderstood or misimplemented by developers
+- Pattern violates core architectural principles (HTTP-only, event loop ownership, etc.)
+- Pattern has been observed in code reviews multiple times
+- Pattern has observable symptoms that need documentation for debugging
+
+**Priority Classification:**
+
+| Priority | Indicator | Description | Examples |
+|----------|-----------|-------------|----------|
+| 🔴 **CRITICAL** | Production impact | Crashes, data loss, security vulnerabilities | Resource leaks, connection exhaustion, bare except:pass |
+| 🟠 **HIGH** | Silent failures | Debugging impossible, breaking changes on upgrade | Deprecated APIs, missing error logging |
+| 🟡 **MEDIUM** | Performance/maintenance | Degradation over time, tech debt | Inefficient queries, poor naming |
+
+**Required Sections:**
+1. **Problem** - Clear description of the anti-pattern (1-2 sentences)
+2. **Symptom** - Observable production symptom (what ops/developers will see)
+3. **Impact** - Business/technical consequences
+4. **Example (WRONG)** - Code demonstrating the anti-pattern with comments
+5. **Why This Matters** - Bullet points explaining consequences
+6. **Solution (CORRECT)** - Fixed version with proper implementation
+7. **Architecture Rule** - Guideline to prevent this pattern
+8. **Monitoring** *(optional)* - Commands to detect this in production
+9. **Related Anti-Patterns** - Cross-references to related issues
+
+**Best Practices:**
+- Keep each anti-pattern concise (50-70 lines maximum)
+- Always show both WRONG and CORRECT code examples
+- Include real file references when available (`src/api/handlers/poll.py:45-48`)
+- Add monitoring commands for operational anti-patterns (docker stats, netstat, etc.)
+- Link to related anti-patterns for comprehensive understanding
+- Use real production symptoms when possible ("crashes after 3-7 days uptime")
+- Include request IDs and correlation IDs in examples
+
+**Embedding Strategy:**
+- Anti-patterns should be embedded in relevant atomic documents (NOT separate category)
+- Add "Anti-Patterns" section after main content, before "Related Documents"
+- Update INDEX.md Quick Reference table when adding new anti-patterns
+- Cross-reference between related anti-patterns in different documents
+
 ---
 
 ## Pull Request Process
@@ -118,7 +161,9 @@ Before submitting a pull request, ensure:
 - [ ] All code examples use Python 3.12+ with type hints
 - [ ] Code examples follow CORRECT/INCORRECT pattern (when applicable)
 - [ ] New atomic documents follow `docs/atomic/TEMPLATE.md` structure
-- [ ] `docs/INDEX.md` updated if adding new documents
+- [ ] Anti-patterns include WRONG/CORRECT examples and monitoring commands
+- [ ] Anti-patterns have proper priority markers (🔴/🟠/🟡)
+- [ ] `docs/INDEX.md` updated if adding new documents or anti-patterns
 - [ ] `docs/atomic/README.md` updated if adding new category
 - [ ] No sensitive data (passwords, tokens, real IPs)
 - [ ] Follows `docs/STYLE_GUIDE.md` conventions

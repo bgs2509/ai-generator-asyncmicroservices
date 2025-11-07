@@ -21,6 +21,7 @@
 - Responsibility Matrix (if applicable)
 - When to Use
 - Anti-Patterns to Avoid
+- Anti-Patterns (detailed section with WRONG/CORRECT examples)
 
 **For Service Setup documents** (services/fastapi, services/aiogram, services/asyncio-workers, services/data-services), use:
 - Prerequisites
@@ -167,6 +168,76 @@ List common mistakes and why they're problematic.
 How to ensure compliance (CI checks, code reviews, etc.)
 
 **Example files**: `improved-hybrid-overview.md`, `service-separation-principles.md`, `event-loop-management.md`
+
+---
+
+### Anti-Patterns Section (Applicable to ALL categories)
+
+**Purpose**: Document common mistakes and production failures to prevent repetition.
+
+**When to include**:
+- Pattern causes production failures (crashes, data loss, security issues)
+- Pattern is commonly misunderstood or misimplemented
+- Pattern violates core architectural principles
+- Pattern has observable symptoms that need documentation
+
+**Structure**:
+
+```markdown
+## Anti-Patterns
+
+### ❌ [Descriptive Anti-Pattern Name]
+
+**Problem**: [1-2 sentences describing the core issue]
+
+**Symptom**: [Observable production symptom - what developers/ops will see]
+
+**Impact**: [Business/technical consequences]
+
+**Example (WRONG)**:
+```python
+# Code demonstrating the anti-pattern
+# Include real file references when applicable (e.g., src/api/handlers/poll.py:45-48)
+# Show what NOT to do
+```
+
+**Why This Matters**:
+- [Bullet point explaining consequences]
+- [Technical reasons why this pattern breaks in production]
+- [Long-term impact on maintainability/scalability]
+
+**Solution (CORRECT)**:
+```python
+# Fixed version with proper implementation
+# Include comments explaining the fix
+# Show best practice approach
+```
+
+**Architecture Rule**:
+> [Quoted guideline to prevent this pattern - links to architectural principles]
+
+**Monitoring** *(optional, for operational anti-patterns)*:
+```bash
+# Command to detect this pattern in production
+docker stats --no-stream service_name
+docker exec service sh -c 'ls /proc/$$/fd | wc -l'
+```
+
+**Related Anti-Patterns**: [Links to related anti-patterns in other documents]
+- [Another Anti-Pattern] → `docs/atomic/category/file.md#anchor`
+```
+
+**Priority Classification**:
+- 🔴 **CRITICAL**: Production crashes, data loss, security vulnerabilities
+- 🟠 **HIGH**: Silent failures, debugging issues, breaking changes on upgrade
+- 🟡 **MEDIUM**: Performance degradation, maintainability issues
+
+**Best Practices**:
+- Keep anti-patterns concise (max 50-70 lines per anti-pattern)
+- Always show both WRONG and CORRECT examples
+- Include monitoring commands when pattern has observable metrics
+- Link to related anti-patterns for cross-reference
+- Use real production symptoms when possible
 
 ---
 
@@ -557,6 +628,8 @@ Common API errors and how to handle them.
 - [ ] Code examples follow CORRECT/INCORRECT pattern (if applicable)
 - [ ] Code examples use Python 3.12+ syntax with type hints
 - [ ] "Related Documents" section with at least 2-3 links
+- [ ] Anti-Patterns section included (if applicable) with WRONG/CORRECT examples
+- [ ] Anti-Patterns include monitoring commands (when operational)
 - [ ] No TODO placeholders remaining
 - [ ] No sensitive data (passwords, tokens, real IPs, emails)
 - [ ] Follows naming conventions (snake_case for Python, kebab-case for Kubernetes)
