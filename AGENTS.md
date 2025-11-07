@@ -54,6 +54,7 @@ After initialization, AI reads documents **on-demand** based on the current work
 - **[README.md](docs/LINKS_REFERENCE.md#core-documentation)** — intro, quick start, value proposition.
 - **[Technical Specifications](docs/LINKS_REFERENCE.md#core-documentation)** — technology versions and configurations.
 - **[Architecture Guide](docs/LINKS_REFERENCE.md#core-documentation)** — mandatory architecture principles and communication patterns.
+- **[DRY, KISS, YAGNI Principles](docs/guides/dry-kiss-yagni-principles.md)** — core software engineering principles and how framework enforces them.
 - **[Development Commands](docs/LINKS_REFERENCE.md#developer-guides)** — canonical command catalog for local/dev/CI operations.
 - **[Agent Workflow](docs/INDEX.md#documentation-pillars)** — end-to-end process for AI agents.
 
