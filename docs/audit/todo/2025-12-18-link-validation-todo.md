@@ -3,9 +3,11 @@
 # Documentation Audit Plan: Links & Facts Verification
 
 > **Created**: 2025-12-18
-> **Status**: Pending
-> **Scope**: 226 markdown files across the entire project
+> **Updated**: 2025-12-18
+> **Status**: 🟡 In Progress
+> **Scope**: 235 markdown files across the entire project
 > **Effort**: Medium-Large (AI-assisted)
+> **Prerequisite**: ✅ `2025-12-18-documentation-issues-todo.md` — COMPLETED
 
 ---
 
@@ -25,14 +27,16 @@ This plan outlines a comprehensive audit of all documentation files in the ai-ge
 | Location | Files | Priority |
 |----------|-------|----------|
 | Root (`*.md`) | 9 | 🔴 Critical |
+| `docs/` (top-level) | 3 | 🔴 Critical |
 | `docs/guides/` | 13 | 🔴 Critical |
-| `docs/reference/` | 12 | 🔴 Critical |
+| `docs/reference/` | 13 | 🔴 Critical |
 | `docs/atomic/` | 172 | 🟡 Medium |
-| `docs/checklists/` | 3 | 🟠 High |
-| `docs/quality/` | 3 | 🟠 High |
-| `docs/contributing/` | 6 | 🟢 Low |
-| `templates/` | 8 | 🟠 High |
-| **Total** | **226** | — |
+| `docs/checklists/` | 2 | 🟠 High |
+| `docs/quality/` | 4 | 🟠 High |
+| `docs/contributing/` | 5 | 🟢 Low |
+| `docs/audit/` | 7 | 🟢 Low |
+| `templates/` | 7 | 🟠 High |
+| **Total** | **235** | — |
 
 ### Link Types to Verify
 
@@ -146,14 +150,21 @@ This plan outlines a comprehensive audit of all documentation files in the ai-ge
 **Priority**: 🟠 HIGH
 **Estimated time**: 30 minutes
 
+### 4.1 Quality Documents (4 files)
+
 | # | File | Verification Tasks |
 |---|------|-------------------|
-| 4.1 | `docs/quality/agent-verification-checklist.md` | [ ] Checklist completeness, linked tools |
-| 4.2 | `docs/quality/qa-report-template.md` | [ ] Template format, sections |
-| 4.3 | `docs/quality/automated-quality-gates.md` | [ ] CI configuration accuracy |
-| 4.4 | `docs/checklists/service-naming-checklist.md` | [ ] Decision criteria accuracy |
-| 4.5 | `docs/checklists/code-review-checklist.md` | [ ] Review points validity |
-| 4.6 | `docs/checklists/deployment-checklist.md` | [ ] Deployment steps accuracy |
+| 4.1.1 | `docs/quality/agent-verification-checklist.md` | [ ] Checklist completeness, linked tools |
+| 4.1.2 | `docs/quality/qa-report-template.md` | [ ] Template format, sections |
+| 4.1.3 | `docs/quality/automated-quality-gates.md` | [ ] CI configuration accuracy |
+| 4.1.4 | `docs/quality/README.md` | [ ] Index completeness |
+
+### 4.2 Checklists (2 files)
+
+| # | File | Verification Tasks |
+|---|------|-------------------|
+| 4.2.1 | `docs/checklists/service-naming-checklist.md` | [ ] Decision criteria accuracy |
+| 4.2.2 | `docs/checklists/code-review-checklist.md` | [ ] Review points validity |
 
 ---
 
@@ -247,15 +258,48 @@ This plan outlines a comprehensive audit of all documentation files in the ai-ge
 **Priority**: 🟠 HIGH
 **Estimated time**: 30 minutes
 
+### 6.1 Template READMEs (7 files)
+
 | # | File | Verification Tasks |
 |---|------|-------------------|
-| 6.1 | `templates/README.md` | [ ] Template list accuracy |
-| 6.2 | `templates/services/template_business_api/README.md` | [ ] Structure matches code |
-| 6.3 | `templates/services/template_business_bot/README.md` | [ ] Bot setup accuracy |
-| 6.4 | `templates/services/template_business_worker/README.md` | [ ] Worker patterns |
-| 6.5 | `templates/services/template_data_postgres_api/README.md` | [ ] PostgreSQL patterns |
-| 6.6 | `templates/services/template_data_mongo_api/README.md` | [ ] MongoDB patterns |
-| 6.7 | `templates/shared/utils/README.md` | [ ] Shared utils docs |
+| 6.1.1 | `templates/README.md` | [ ] Template list accuracy, status indicators |
+| 6.1.2 | `templates/services/template_business_api/README.md` | [ ] Structure matches code |
+| 6.1.3 | `templates/services/template_business_bot/README.md` | [ ] Bot setup accuracy |
+| 6.1.4 | `templates/services/template_business_worker/README.md` | [ ] Worker patterns |
+| 6.1.5 | `templates/services/template_data_postgres_api/README.md` | [ ] PostgreSQL patterns |
+| 6.1.6 | `templates/services/template_data_mongo_api/README.md` | [ ] MongoDB patterns |
+| 6.1.7 | `templates/shared/utils/README.md` | [ ] Shared utils docs |
+
+### 6.2 Shared Infrastructure Verification
+
+> **Note**: Shared components created via `2025-12-18-documentation-issues-todo.md`
+
+| # | Component | Files | Verification Tasks |
+|---|-----------|-------|-------------------|
+| 6.2.1 | `templates/shared/http_clients/` | 2 | [ ] DataApiClient imports work |
+| 6.2.2 | `templates/shared/rabbitmq/` | 3 | [ ] Publisher/Consumer imports work |
+| 6.2.3 | `templates/shared/middleware/` | 2 | [ ] RequestIdMiddleware imports work |
+| 6.2.4 | `templates/shared/events/` | 2 | [ ] BaseEvent imports work |
+| 6.2.5 | `templates/shared/testing/` | 2 | [ ] Fixtures imports work |
+| 6.2.6 | `templates/shared/utils/` | 6 | [ ] All utils imports work |
+
+---
+
+## Phase 7: Audit Documentation
+
+**Priority**: 🟢 LOW
+**Estimated time**: 15 minutes
+
+> **Self-referential**: This phase audits the audit documentation itself.
+
+| # | File | Verification Tasks |
+|---|------|-------------------|
+| 7.1 | `docs/audit/README.md` | [ ] Index accuracy |
+| 7.2 | `docs/audit/todo/README.md` | [ ] Style guide completeness |
+| 7.3 | `docs/audit/todo/2025-12-18-documentation-issues-todo.md` | [ ] Cross-refs to this file |
+| 7.4 | `docs/audit/templates/README.md` | [ ] Template list accuracy |
+| 7.5 | `docs/audit/templates/comprehensive-audit.md` | [ ] Template usability |
+| 7.6 | `docs/audit/reports/README.md` | [ ] Reports index |
 
 ---
 
@@ -352,7 +396,8 @@ cat docs/reference/tech_stack.md | grep -E "^\|.*\|.*\|"
 | Phase 3 | All references: 0 broken links, data current |
 | Phase 4 | All quality docs: 0 broken links |
 | Phase 5 | All atomic docs: 0 broken links, Related Documents valid |
-| Phase 6 | All template docs: structure matches code |
+| Phase 6 | All template docs: structure matches code, shared/ imports work |
+| Phase 7 | All audit docs: self-consistent, cross-refs valid |
 
 ### Quality Gates
 
@@ -405,7 +450,8 @@ What it should say
 | Second | 3, 4 | References + quality |
 | Third | 5.1-5.3 | Atomic: architecture, services, integrations |
 | Fourth | 5.4-5.7 | Atomic: infrastructure, observability, testing, others |
-| Last | 6 + Review | Templates + final verification |
+| Fifth | 6 | Templates + shared/ verification |
+| Last | 7 + Review | Audit docs + final verification |
 
 ---
 
@@ -425,6 +471,33 @@ What it should say
 - `docs/INDEX.md` — master documentation index
 - `docs/LINKS_REFERENCE.md` — centralized link table
 - `docs/STYLE_GUIDE.md` — documentation standards
+- `docs/audit/todo/2025-12-18-documentation-issues-todo.md` — prerequisite (COMPLETED)
+- `docs/audit/todo/README.md` — TODO file style guide
+
+---
+
+## Dependencies
+
+### Completed Prerequisites
+
+| Dependency | Status | Impact |
+|------------|--------|--------|
+| `2025-12-18-documentation-issues-todo.md` | ✅ COMPLETED | Shared infrastructure created |
+| `templates/shared/http_clients/` | ✅ EXISTS | Phase 6.2 verification enabled |
+| `templates/shared/rabbitmq/` | ✅ EXISTS | Phase 6.2 verification enabled |
+| `templates/shared/middleware/` | ✅ EXISTS | Phase 6.2 verification enabled |
+| `templates/shared/events/` | ✅ EXISTS | Phase 6.2 verification enabled |
+| `templates/shared/testing/` | ✅ EXISTS | Phase 6.2 verification enabled |
+
+### Created Templates
+
+| Template | Status | Files |
+|----------|--------|-------|
+| `template_business_api` | ✅ COMPLETE | Full structure |
+| `template_business_bot` | ✅ COMPLETE | Full structure |
+| `template_business_worker` | ✅ COMPLETE | Full structure |
+| `template_data_postgres_api` | ✅ EXISTS | Reference implementation |
+| `template_data_mongo_api` | ✅ EXISTS | Reference implementation |
 
 ---
 
