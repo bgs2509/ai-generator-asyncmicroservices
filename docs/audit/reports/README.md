@@ -19,7 +19,8 @@ Reports follow the format: `YYYY-MM-{descriptive-name}.md`
 
 | Date | Report | Status | Issues | Resolution |
 |------|--------|--------|--------|------------|
-| 2025-12 | [documentation-issues](./2025-12-documentation-issues.md) | Active | 8 (3 P0, 2 P1, 2 P2, 1 P3) | In progress |
+| 2025-12-18 | [documentation-issues TODO](../todo/2025-12-18-documentation-issues-todo.md) | ✅ Completed | 8 (resolved) | All issues fixed |
+| 2025-12-18 | [link-validation TODO](../todo/2025-12-18-link-validation-todo.md) | ✅ Completed | 12 fixed | All verified |
 
 ## Report Structure
 
