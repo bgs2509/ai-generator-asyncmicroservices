@@ -5,7 +5,7 @@ This file captures the minimal scaffold for an Aiogram-based Telegram bot servic
 ## Prerequisites
 
 - Python 3.12+
-- `aiogram>=3.4`
+- `aiogram>=3.22.0`
 - Access to Telegram bot token (stored in secrets, not in code)
 - Redis and RabbitMQ endpoints provided via settings
 

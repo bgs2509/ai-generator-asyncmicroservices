@@ -456,7 +456,7 @@ To adjust thresholds for your project:
 
 - [DRY/KISS/YAGNI Principles](../guides/dry-kiss-yagni-principles.md) - Comprehensive principle guide
 - [Code Review Checklist](../atomic/testing/quality-assurance/code-review-checklist.md) - Manual checks
-- [Testing Strategy](../atomic/testing/testing-strategy.md) - How to test quality improvements
+- [Pytest Setup](../atomic/testing/unit-testing/pytest-setup.md) - How to test quality improvements
 
 ---
 

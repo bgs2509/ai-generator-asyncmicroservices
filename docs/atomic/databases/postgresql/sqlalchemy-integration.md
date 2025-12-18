@@ -12,7 +12,7 @@ Comprehensive guide for SQLAlchemy 2.0+ async patterns, model definitions, repos
 sqlalchemy[asyncio]==2.0.23
 asyncpg==0.29.0
 alembic==1.13.1
-pydantic==2.5.0
+pydantic>=2.6.3
 ```
 
 ### Base Model Configuration

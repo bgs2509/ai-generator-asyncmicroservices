@@ -674,7 +674,7 @@ request_duration = Histogram(
 
 ## Next Steps
 
-1. **Try the Quick Start**: Follow the [Quick Start Guide](docs/getting-started/quick-start.md)
+1. **Try the Quick Start**: Follow the [Quick Start Guide](README.md#quick-start)
 2. **Read the Guides**: Check [AI Code Generation Workflow](docs/guides/ai-code-generation-master-workflow.md)
 3. **Explore Templates**: See [Service Templates](templates/README.md)
 4. **Join Community**: Ask questions in [GitHub Discussions](https://github.com/bgs2509/ai-generator-asyncmicroservices/discussions)

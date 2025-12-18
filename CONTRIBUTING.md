@@ -37,9 +37,8 @@ doc4microservices/
 │   ├── guides/             # Implementation guides
 │   ├── reference/          # Reference materials
 │   └── INDEX.md            # Documentation catalog
-├── prompts/                # AI agent prompts
-├── scripts/                # Validation and automation scripts
-├── CLAUDE.md               # AI agent entry point
+├── templates/              # Service templates and shared components
+├── AGENTS.md               # AI agent entry point
 └── README.md               # Project overview
 ```
 

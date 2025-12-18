@@ -853,28 +853,28 @@ safety check
 ### Architecture Documentation
 
 - [Improved Hybrid Approach](../atomic/architecture/improved-hybrid-overview.md) - How HTTP-only pattern enforces DRY
-- [Architecture Overview](../atomic/architecture/architecture-overview.md) - Overall system design
+- [Service Separation Principles](../atomic/architecture/service-separation-principles.md) - Overall system design
 - [Maturity Levels](../reference/maturity-levels.md) - Incremental complexity (KISS + YAGNI)
 - [Quality Standards](../atomic/architecture/quality-standards.md) - Code quality requirements
 
 ### Anti-Patterns
 
-- [Copy-Paste Programming](../atomic/architecture/anti-patterns/copy-paste-programming.md) - DRY violations
-- [God Object](../atomic/architecture/anti-patterns/god-object.md) - KISS violations
-- [Speculative Generality](../atomic/architecture/anti-patterns/speculative-generality.md) - YAGNI violations
-- [Premature Infrastructure](../atomic/architecture/anti-patterns/premature-infrastructure.md) - KISS + YAGNI violations
+See [Anti-Pattern Quick Reference](../INDEX.md#anti-pattern-quick-reference) for common anti-patterns with symptoms and solutions:
+- DRY violations (code duplication, HTTP client proliferation)
+- KISS violations (connection pool misuse, silent exception swallowing)
+- YAGNI violations (deprecated lifecycle APIs, premature infrastructure)
 
 ### Implementation Guides
 
 - [Shared Utilities README](../../templates/shared/utils/README.md) - Reusable components (DRY)
-- [HTTP Client Patterns](../atomic/integrations/http/http-client-patterns.md) - HTTP-only data access (DRY)
+- [HTTP Client Patterns](../atomic/integrations/http-communication/http-client-patterns.md) - HTTP-only data access (DRY)
 - [AI Code Generation Workflow](./ai-code-generation-master-workflow.md) - Feature prioritization (YAGNI)
 
 ### Quality Assurance
 
 - [Code Review Checklist](../atomic/testing/quality-assurance/code-review-checklist.md) - Includes DRY/KISS/YAGNI checks
 - [Automated Quality Gates](../quality/automated-quality-gates.md) - CI enforcement
-- [Testing Strategy](../atomic/testing/testing-strategy.md) - How to test simple code
+- [Pytest Setup](../atomic/testing/unit-testing/pytest-setup.md) - How to test simple code
 
 ---
 
