@@ -84,6 +84,7 @@ Common anti-patterns encountered in production, documented with symptoms and sol
 - [Prompt Templates](reference/prompt-templates.md) — reusable communication templates
 - [Failure Scenarios & Recovery Guide](reference/failure-scenarios.md) — edge cases handling and recovery procedures
 - [Architecture Decision Log Template](reference/architecture-decision-log-template.md) — ADR format and conventions
+- [Canonical References](reference/canonical-references.md) — single source of truth for each topic
 - [Semantic Shortening Guide](guides/semantic-shortening-guide.md) — 3-part service naming formula and decision tree
 
 <a id="agent-templates-checklists"></a>

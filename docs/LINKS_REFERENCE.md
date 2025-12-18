@@ -40,6 +40,7 @@
 | **Deliverables Catalog** | [reference/deliverables-catalog.md](reference/deliverables-catalog.md) | `.ai-framework/docs/reference/deliverables-catalog.md` | Required artefacts and storage rules |
 | **Prompt Templates** | [reference/prompt-templates.md](reference/prompt-templates.md) | `.ai-framework/docs/reference/prompt-templates.md` | Reusable prompts for clarification and reporting |
 | **Architecture Decision Log Template** | [reference/architecture-decision-log-template.md](reference/architecture-decision-log-template.md) | `.ai-framework/docs/reference/architecture-decision-log-template.md` | Standardised ADR format |
+| **Canonical References** | [reference/canonical-references.md](reference/canonical-references.md) | `.ai-framework/docs/reference/canonical-references.md` | Single source of truth mapping |
 | **Semantic Shortening Guide** | [guides/semantic-shortening-guide.md](guides/semantic-shortening-guide.md) | `.ai-framework/docs/guides/semantic-shortening-guide.md` | 3-part service naming formula and decision tree |
 
 <a id="ide-rules-and-patterns"></a>
