@@ -101,6 +101,18 @@ Common anti-patterns encountered in production, documented with symptoms and sol
 - [Atomic Documentation Template](atomic/TEMPLATE.md) — template for creating atomic modules
 - [Atomic Documentation Changelog](atomic/CHANGELOG.md) — atomic documentation change history
 
+### Meta-Documentation & Contribution
+- [Contributing Guide](contributing/README.md) — how to contribute to the framework
+  - [Improvement Plans](contributing/improvement-plans/README.md) — coordinating multi-phase enhancements
+  - [Feature Proposals](contributing/feature-proposals/README.md) — proposing new capabilities
+  - [Refactoring Plans](contributing/refactoring-plans/README.md) — coordinating architectural changes
+- [Audit Process](audit/README.md) — documentation quality assurance
+  - [Audit Templates](audit/templates/README.md) — how to conduct audits
+  - [Audit Reports](audit/reports/README.md) — historical audit findings
+  - [TODO Items](audit/todo/README.md) — pending tasks and work-in-progress
+- [Quality Assurance](quality/README.md) — QA gates and verification (Stage 5-6)
+- [Checklists](checklists/README.md) — decision-support checklists
+
 ## Atomic Knowledge Base
 
 See [Atomic Documentation Hub](atomic/README.md) for contribution rules.

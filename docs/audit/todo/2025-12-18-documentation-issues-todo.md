@@ -1,3 +1,5 @@
+> **TODO FILE** — This document contains pending tasks that need to be completed.
+
 # Documentation Issues Report — 2025-12-18
 
 ## Executive Summary

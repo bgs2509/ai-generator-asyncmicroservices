@@ -10,9 +10,13 @@ contributing/
 ├── improvement-plans/             # Detailed plans for significant enhancements
 │   ├── README.md                  # How to create and use improvement plans
 │   └── 2025-01-*.md              # Active improvement plans
-├── feature-proposals/             # Proposals for new framework capabilities (future)
-└── refactoring-plans/             # Architectural refactoring plans (future)
+├── feature-proposals/             # Proposals for new framework capabilities
+│   └── README.md                  # Feature proposal template and workflow
+└── refactoring-plans/             # Architectural refactoring plans
+    └── README.md                  # Refactoring plan template and workflow
 ```
+
+> **Note**: Documentation audits are managed in [`docs/audit/`](../audit/README.md).
 
 ## 🎯 Types of Contributions
 
@@ -42,7 +46,7 @@ contributing/
 
 📖 [Learn more](improvement-plans/README.md)
 
-### 2. Feature Proposals (`feature-proposals/`) - Coming Soon
+### 2. Feature Proposals (`feature-proposals/`)
 
 **Purpose:** Propose new capabilities for the framework
 
@@ -52,9 +56,15 @@ contributing/
 - New maturity levels or architectural patterns
 - Major documentation additions
 
-**Process:** TBD
+**Process:**
+1. Create proposal using template from `feature-proposals/README.md`
+2. Submit PR for review (proposal only, no code)
+3. Iterate based on maintainer feedback
+4. After approval, follow standard contribution process
 
-### 3. Refactoring Plans (`refactoring-plans/`) - Coming Soon
+📖 [Learn more](feature-proposals/README.md)
+
+### 3. Refactoring Plans (`refactoring-plans/`)
 
 **Purpose:** Plan significant architectural refactorings
 
@@ -64,7 +74,13 @@ contributing/
 - Major documentation restructuring
 - Changing naming conventions
 
-**Process:** TBD
+**Process:**
+1. Create refactoring plan using template from `refactoring-plans/README.md`
+2. Submit PR for extended review (breaking changes)
+3. Announce planned changes to community
+4. Implement phases per approved plan
+
+📖 [Learn more](refactoring-plans/README.md)
 
 ### 4. Direct Contributions
 
