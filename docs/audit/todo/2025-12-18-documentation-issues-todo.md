@@ -10,9 +10,9 @@ This audit analyzed the AI Generator for Async Microservices documentation again
 
 | Metric | Value |
 |--------|-------|
-| Total Issues Found | 8 |
+| Total Issues Found | 6 |
 | Critical (P0) | 3 |
-| High (P1) | 2 |
+| High (P1) | 0 |
 | Medium (P2) | 2 |
 | Low (P3) | 1 |
 | Documentation Coverage | 73% (172 files, 52,389 lines) |
@@ -28,7 +28,7 @@ The documentation is excellent, but **implementation templates are incomplete**.
 ```
 Stage 0-3: ✅ WORKS (documentation exists)
 Stage 4:   ❌ BLOCKED (missing templates)
-Stage 5-6: ⚠️  PARTIAL (missing verification criteria)
+Stage 5-6: ✅ WORKS (verification criteria exist)
 ```
 
 ---
@@ -40,8 +40,6 @@ Stage 5-6: ⚠️  PARTIAL (missing verification criteria)
 | ISS-001 | P0 | Templates | Missing template_business_bot | Open |
 | ISS-002 | P0 | Templates | Missing template_business_worker | Open |
 | ISS-003 | P0 | Templates | Incomplete template_business_api | Open |
-| ISS-004 | P1 | Reference | Missing maturity-levels.md | Open |
-| ISS-005 | P1 | Reference | Missing conditional-stage-rules.md | Open |
 | ISS-006 | P2 | Shared | Missing shared/events/ | Open |
 | ISS-007 | P2 | Cross-refs | Inconsistent path formats | Open |
 | ISS-008 | P3 | Meta | Multiple "CANONICAL" claims | Open |
@@ -1114,489 +1112,18 @@ def mock_data_client(mocker):
 
 ---
 
-### ISS-004: Missing maturity-levels.md (P1 — HIGH)
+> **RESOLVED**: ISS-004 (maturity-levels.md) and ISS-005 (conditional-stage-rules.md)
+> were removed from this audit — both files now exist.
 
-#### Problem Description
+### ~~ISS-004~~ — RESOLVED ✅
 
-The document `docs/reference/maturity-levels.md` is referenced **4 times** in the AI code generation workflow but does not exist.
-
-Maturity levels are essential for AI agents to determine:
-- Which features to include in generated code
-- Expected generation time
-- Quality and completeness targets
-
-#### Current State (Problem Example)
-
-```markdown
-# In docs/guides/ai-code-generation-master-workflow.md:
-
-## Stage 1: Prompt Validation (line 144)
-> **Target Maturity Level**: See `docs/reference/maturity-levels.md`
-#                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#                                THIS FILE DOES NOT EXIST
-
-## Stage 2: Requirements Clarification (line 224)
-> Match requirements to maturity level from `docs/reference/maturity-levels.md`
-#                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#                                            THIS FILE DOES NOT EXIST
-
-## Stage 3: Architecture Planning (line 287)
-> Verify feature set matches target maturity level (`docs/reference/maturity-levels.md`)
-
-## Stage 5: Quality Verification (line 637)
-> Validate against maturity level requirements from `docs/reference/maturity-levels.md`
-```
-
-**Result:** AI agents cannot determine what features to include.
-
-#### Expected State (Solution Example)
-
-```markdown
-# Maturity Levels Reference
-
-## Overview
-
-This document defines the four maturity levels for generated services.
-AI agents use these levels to determine feature scope and quality targets.
-
-## Quick Reference
-
-| Level | Name | Time | Use Case |
-|-------|------|------|----------|
-| 1 | PoC | ~5 min | Validate idea quickly |
-| 2 | Dev | ~10 min | Development-ready with basics |
-| 3 | Pre-Prod | ~15 min | Ready for staging |
-| 4 | Prod | ~30 min | Production-ready with full observability |
+**Status**: File `docs/reference/maturity-levels.md` now exists (16KB).
 
 ---
 
-## Level 1: PoC (Proof of Concept)
+### ~~ISS-005~~ — RESOLVED ✅
 
-**Purpose**: Validate core functionality as fast as possible.
-
-**Time Target**: ~5 minutes
-
-### Included Features
-
-- Basic project structure
-- Single endpoint or handler
-- Console logging (print statements OK)
-- `.env` configuration with defaults
-- `requirements.txt` with minimal dependencies
-
-### Excluded Features
-
-- Tests
-- Docker
-- Health checks
-- Structured logging
-- Metrics/tracing
-- Type hints (optional at this level)
-
-### Directory Structure
-
-```
-project/
-├── .env.example
-├── requirements.txt
-└── src/
-    ├── __init__.py
-    └── main.py
-```
-
-### Example Use Cases
-
-- "Can Aiogram handle inline keyboards?"
-- "Does FastAPI work with async SQLAlchemy?"
-- Quick demonstration to stakeholders
-
----
-
-## Level 2: Dev (Development)
-
-**Purpose**: Developer-ready with essential tooling.
-
-**Time Target**: ~10 minutes
-
-### Included Features
-
-Everything in PoC, plus:
-
-- Dockerfile (single stage OK)
-- `docker-compose.dev.yml`
-- Basic tests (1-2 per endpoint)
-- Health endpoint (`/health`)
-- Structured logging (console renderer)
-- Type hints (required)
-- Pydantic models for validation
-
-### Excluded Features
-
-- Full test coverage
-- CI/CD pipelines
-- Production Docker configs
-- Metrics/tracing
-- Database migrations
-
-### Directory Structure
-
-```
-project/
-├── .env.example
-├── Dockerfile
-├── docker-compose.dev.yml
-├── requirements.txt
-├── src/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   └── config.py
-│   └── api/
-│       └── v1/
-│           └── health.py
-└── tests/
-    ├── __init__.py
-    └── test_health.py
-```
-
----
-
-## Level 3: Pre-Prod (Pre-Production)
-
-**Purpose**: Ready for staging environment.
-
-**Time Target**: ~15 minutes
-
-### Included Features
-
-Everything in Dev, plus:
-
-- Full test suite (unit + integration)
-- `docker-compose.prod.yml`
-- CI pipeline (lint, test, build)
-- Metrics endpoint (`/metrics`)
-- Request ID correlation
-- Error handling middleware
-- API versioning (`/api/v1/`)
-- Structured logging (JSON format)
-- Alembic migrations (if database)
-
-### Excluded Features
-
-- Full observability stack (Grafana, Jaeger)
-- CD pipeline
-- Security hardening
-- Performance optimization
-
-### Directory Structure
-
-```
-project/
-├── .env.example
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── Dockerfile
-├── docker-compose.dev.yml
-├── docker-compose.prod.yml
-├── Makefile
-├── requirements.txt
-├── alembic/
-│   └── versions/
-├── src/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── config.py
-│   │   ├── logging_config.py
-│   │   └── middleware.py
-│   └── api/
-│       └── v1/
-│           ├── __init__.py
-│           ├── health.py
-│           └── router.py
-└── tests/
-    ├── __init__.py
-    ├── conftest.py
-    ├── unit/
-    └── integration/
-```
-
----
-
-## Level 4: Prod (Production)
-
-**Purpose**: Production-ready with full observability.
-
-**Time Target**: ~30 minutes
-
-### Included Features
-
-Everything in Pre-Prod, plus:
-
-- Distributed tracing (Jaeger integration)
-- Prometheus metrics
-- Grafana dashboard config
-- CD pipeline (deploy to staging/prod)
-- Rate limiting
-- Security headers (CORS, CSP)
-- Database migrations with Alembic
-- Makefile with all commands
-- Complete documentation
-
-### Directory Structure
-
-```
-project/
-├── .env.example
-├── .github/
-│   └── workflows/
-│       ├── ci.yml
-│       └── cd.yml
-├── Dockerfile
-├── docker-compose.dev.yml
-├── docker-compose.prod.yml
-├── Makefile
-├── README.md
-├── requirements.txt
-├── alembic/
-├── grafana/
-│   └── dashboards/
-├── prometheus/
-│   └── prometheus.yml
-├── src/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── core/
-│   ├── api/
-│   ├── domain/
-│   ├── infrastructure/
-│   └── schemas/
-└── tests/
-    ├── conftest.py
-    ├── unit/
-    ├── integration/
-    └── e2e/
-```
-
----
-
-## Feature Matrix
-
-| Feature | PoC | Dev | Pre-Prod | Prod |
-|---------|:---:|:---:|:--------:|:----:|
-| Basic structure | ✅ | ✅ | ✅ | ✅ |
-| Type hints | ❌ | ✅ | ✅ | ✅ |
-| Pydantic models | ❌ | ✅ | ✅ | ✅ |
-| Dockerfile | ❌ | ✅ | ✅ | ✅ |
-| docker-compose | ❌ | Dev | Dev+Prod | Dev+Prod |
-| Tests | ❌ | Basic | Full | Full+E2E |
-| Health endpoint | ❌ | ✅ | ✅ | ✅ |
-| Logging | Console | Structured | JSON | JSON |
-| Metrics | ❌ | ❌ | Basic | Prometheus |
-| Tracing | ❌ | ❌ | ❌ | Jaeger |
-| CI pipeline | ❌ | ❌ | ✅ | ✅ |
-| CD pipeline | ❌ | ❌ | ❌ | ✅ |
-| Migrations | ❌ | ❌ | ✅ | ✅ |
-| Makefile | ❌ | ❌ | ✅ | ✅ |
-
----
-
-## Selecting a Maturity Level
-
-Use this decision tree:
-
-```
-Q: Is this a quick experiment or demo?
-├─ Yes → Level 1 (PoC)
-└─ No
-   Q: Will this run in production?
-   ├─ No → Level 2 (Dev)
-   └─ Yes
-      Q: Does it need full observability?
-      ├─ No → Level 3 (Pre-Prod)
-      └─ Yes → Level 4 (Prod)
-```
-
-## Related Documents
-
-- `docs/guides/ai-code-generation-master-workflow.md` — References maturity levels in Stages 1-5
-- `docs/reference/conditional-stage-rules.md` — Phase execution based on maturity level
-- `templates/README.md` — Template capabilities per level
-```
-
-#### Impact Analysis
-
-| Impact Area | Description |
-|-------------|-------------|
-| **Workflow Ambiguous** | AI cannot determine feature scope |
-| **Inconsistent Output** | Different features per generation |
-| **User Confusion** | No expectation setting |
-| **Time Estimates Wrong** | No reference for generation time |
-
-#### Solution Steps
-
-1. Create `docs/reference/maturity-levels.md`
-2. Define 4 levels with clear boundaries
-3. Create feature matrix table
-4. Add decision tree for level selection
-5. Link from workflow document
-
-#### Affected Files
-
-| Action | File Path |
-|--------|-----------|
-| CREATE | `docs/reference/maturity-levels.md` |
-
-#### Related Issues
-
-- ISS-005 — Conditional rules depend on maturity levels
-
----
-
-### ISS-005: Missing conditional-stage-rules.md (P1 — HIGH)
-
-#### Problem Description
-
-Referenced in Stage 4 of the workflow but does not exist.
-
-#### Current State (Problem Example)
-
-```markdown
-# In docs/guides/ai-code-generation-master-workflow.md (Stage 4):
-> For conditional phase execution, see `docs/reference/conditional-stage-rules.md`
-#                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#                                       THIS FILE DOES NOT EXIST
-```
-
-#### Expected State (Solution Example)
-
-```markdown
-# Conditional Stage Execution Rules
-
-## Overview
-
-Not all services require all generation phases. This document defines
-when to skip or modify phases based on service type and requirements.
-
-## Phase Execution Matrix
-
-| Service Request | Ph1 Infra | Ph2 Data | Ph3 API | Ph4 Worker | Ph5 Bot | Ph6 Test |
-|-----------------|:---------:|:--------:|:-------:|:----------:|:-------:|:--------:|
-| API only | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
-| API + Worker | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| Bot only | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| Bot + Worker | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
-| Worker only | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| Full Stack | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-
-## Conditional Rules
-
-### Rule 1: Skip Worker Phase
-
-```
-IF requirements NOT CONTAIN any of:
-  - "background task"
-  - "async processing"
-  - "queue"
-  - "scheduled job"
-  - "RabbitMQ consumer"
-THEN SKIP Phase 4 (Workers)
-```
-
-### Rule 2: Skip Bot Phase
-
-```
-IF requirements NOT CONTAIN any of:
-  - "telegram"
-  - "bot"
-  - "aiogram"
-  - "chat interface"
-THEN SKIP Phase 5 (Bot)
-```
-
-### Rule 3: Skip API Phase
-
-```
-IF service_type == "worker-only" OR service_type == "bot-only"
-AND requirements NOT CONTAIN "REST API"
-THEN SKIP Phase 3 (Business API)
-```
-
-### Rule 4: Database Selection
-
-```
-IF data_requirements CONTAIN any of:
-  - "flexible schema"
-  - "documents"
-  - "nested objects"
-  - "unstructured data"
-THEN use template_data_mongo_api
-ELSE use template_data_postgres_api  # Default
-```
-
-### Rule 5: Maturity Level Impact
-
-```
-IF maturity_level == "PoC":
-  SKIP: Phase 6 tests, CI/CD in Phase 1
-
-IF maturity_level == "Dev":
-  SKIP: Full tests in Phase 6, CD in Phase 1
-
-IF maturity_level == "Pre-Prod":
-  SKIP: CD in Phase 1, Grafana dashboards
-
-IF maturity_level == "Prod":
-  INCLUDE: All phases, all features
-```
-
-## Examples
-
-### Example 1: Simple REST API
-
-**Request**: "Create a user management API with PostgreSQL"
-
-**Phase Execution**:
-- ✅ Phase 1: Docker Compose, Makefile
-- ✅ Phase 2: PostgreSQL Data Service
-- ✅ Phase 3: FastAPI Business API
-- ❌ Phase 4: Skip (no background tasks)
-- ❌ Phase 5: Skip (no Telegram bot)
-- ✅ Phase 6: Tests
-
-### Example 2: Telegram Bot with Background Processing
-
-**Request**: "Create a Telegram bot that processes images in background"
-
-**Phase Execution**:
-- ✅ Phase 1: Docker Compose, Makefile
-- ✅ Phase 2: PostgreSQL Data Service
-- ❌ Phase 3: Skip (no REST API needed)
-- ✅ Phase 4: AsyncIO Worker for image processing
-- ✅ Phase 5: Aiogram Bot
-- ✅ Phase 6: Tests
-
-## Related Documents
-
-- `docs/reference/maturity-levels.md` — Feature scope per level
-- `docs/guides/ai-code-generation-master-workflow.md` — Stage 4 references this
-```
-
-#### Solution Steps
-
-1. Create `docs/reference/conditional-stage-rules.md`
-2. Define phase execution matrix
-3. Document conditional rules with examples
-4. Link from workflow document
-
-#### Affected Files
-
-| Action | File Path |
-|--------|-----------|
-| CREATE | `docs/reference/conditional-stage-rules.md` |
+**Status**: File `docs/reference/conditional-stage-rules.md` now exists (38KB).
 
 ---
 
@@ -1822,7 +1349,7 @@ Then update guide documents to say "extends" or "implements" rather than "canoni
 
 ## Implementation Roadmap
 
-### Phase 1: Unblock Workflow (P0 + P1)
+### Phase 1: Unblock Workflow (P0)
 
 **Goal**: Enable 7-stage workflow to execute fully.
 
@@ -1831,8 +1358,9 @@ Then update guide documents to say "extends" or "implements" rather than "canoni
 | 1 | Complete template_business_api | ~10 files | P0 |
 | 2 | Create template_business_bot | ~15 files | P0 |
 | 3 | Create template_business_worker | ~12 files | P0 |
-| 4 | Create maturity-levels.md | 1 file | P1 |
-| 5 | Create conditional-stage-rules.md | 1 file | P1 |
+
+> ~~4. Create maturity-levels.md~~ — ✅ DONE (file exists)
+> ~~5. Create conditional-stage-rules.md~~ — ✅ DONE (file exists)
 
 ### Phase 2: Complete Templates (P0 continued)
 
@@ -1865,8 +1393,8 @@ Then update guide documents to say "extends" or "implements" rather than "canoni
 | template_business_worker | Full AsyncIO scaffolding | ~12 |
 | template_data_mongo_api | Full Motor scaffolding | ~12 |
 | shared/events | base_event.py, README.md, __init__.py | 3 |
-| docs/reference | maturity-levels.md, conditional-stage-rules.md, canonical-references.md | 3 |
-| **TOTAL** | | **~55** |
+| docs/reference | ~~maturity-levels.md~~✅, ~~conditional-stage-rules.md~~✅, canonical-references.md | 1 |
+| **TOTAL** | | **~53** |
 
 ### Files to UPDATE
 
@@ -1885,8 +1413,8 @@ Then update guide documents to say "extends" or "implements" rather than "canoni
 After implementing fixes, verify:
 
 - [ ] All templates at 100% status in `templates/README.md`
-- [ ] `docs/reference/maturity-levels.md` exists and is linked from workflow
-- [ ] `docs/reference/conditional-stage-rules.md` exists and is linked from workflow
+- [x] `docs/reference/maturity-levels.md` exists and is linked from workflow ✅
+- [x] `docs/reference/conditional-stage-rules.md` exists and is linked from workflow ✅
 - [ ] `shared/events/base_event.py` exists and is importable
 - [ ] No relative paths (`./`, `../`) in atomic docs
 - [ ] No duplicate "CANONICAL" claims
