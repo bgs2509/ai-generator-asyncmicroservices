@@ -441,7 +441,7 @@ What it should say
 | 1.1.1-002 | AGENTS.md | Broken anchor | High | ✅ Fixed |
 | 1.1.6-001 | EXAMPLES.md | Broken link `docs/getting-started/quick-start.md` | High | ✅ Fixed |
 | 1.1.5-001 | CONTRIBUTING.md | Wrong file `CLAUDE.md` (should be AGENTS.md) | High | ✅ Fixed |
-| 1.1.5-002 | CONTRIBUTING.md | Missing `scripts/audit_docs.sh` (9 refs) | Medium | ⚠️ Needs decision |
+| 1.1.5-002 | CONTRIBUTING.md | Missing `scripts/audit_docs.sh` (9 refs) | Medium | ✅ Removed |
 | 1.1.2-001 | README.md | External URL 404 `bgs2509.github.io` | Low | 📝 Note (infra) |
 | 2.2.7-001 | dry-kiss-yagni-principles.md | 7 broken links (anti-patterns/, http/, etc.) | High | ✅ Fixed |
 | 4.1.3-001 | automated-quality-gates.md | Broken link `testing-strategy.md` | Medium | ✅ Fixed |

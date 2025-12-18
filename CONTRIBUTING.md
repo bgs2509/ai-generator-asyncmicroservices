@@ -137,24 +137,10 @@ cp docs/atomic/TEMPLATE.md docs/atomic/{category}/{your-topic}.md
 
 ### Before Submitting PR
 
-**MANDATORY**: Run full documentation validation:
-
-```bash
-# 1. Validate all documentation
-./scripts/audit_docs.sh --full
-
-# 2. Check for critical issues
-./scripts/audit_docs.sh --links
-./scripts/audit_docs.sh --structure
-
-# 3. Fix all CRITICAL and HIGH priority issues
-```
-
 ### PR Checklist
 
 Before submitting a pull request, ensure:
 
-- [ ] All validation scripts pass (`./scripts/audit_docs.sh --full`)
 - [ ] No broken internal links
 - [ ] No TODO placeholders in final documents
 - [ ] All code examples use Python 3.12+ with type hints
@@ -181,7 +167,6 @@ Brief description of changes
 - [ ] Breaking change (structural reorganization)
 
 ## Testing
-- [ ] Ran `./scripts/audit_docs.sh --full`
 - [ ] Tested all code examples
 - [ ] Verified all links
 
@@ -325,23 +310,6 @@ ruff format your_module.py
 
 # Testing
 pytest tests/
-```
-
-### Validation Commands
-
-**Before committing**:
-
-```bash
-# Quick validation
-./scripts/audit_docs.sh --quick
-
-# Full audit
-./scripts/audit_docs.sh --full > audit_results.txt
-
-# Check specific areas
-./scripts/audit_docs.sh --links
-./scripts/audit_docs.sh --structure
-./scripts/audit_docs.sh --spelling
 ```
 
 ---
