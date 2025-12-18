@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with this microservices framework.
+This file provides guidance to AI agents (Claude Code, Cursor, etc.) when working with this microservices framework.
 
 > **CONTEXT**: This framework can be used in two ways:
 > - **Direct**: Working in this repository directly (use paths like `docs/`)
@@ -78,9 +78,10 @@ After initialization, AI reads documents **on-demand** based on the current work
 - **[QA Report Template](docs/INDEX.md#agent-templates-checklists)** — final summary for stakeholders.
 - **[Architecture Decision Log Template](docs/INDEX.md#reference-materials)** — standardized ADR format when major decisions arise.
 
-### IDE Rules & Patterns
+### Atomic Knowledge Base
 
 - See `docs/LINKS_REFERENCE.md#ide-rules-and-patterns` for machine-readable rules covering architecture, services, infrastructure, observability, and quality.
+- Full index: [docs/INDEX.md#atomic-knowledge-base](docs/INDEX.md) — complete topic listing.
 
 ### Quick Navigation
 

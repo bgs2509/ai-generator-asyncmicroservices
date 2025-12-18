@@ -86,6 +86,7 @@ Common anti-patterns encountered in production, documented with symptoms and sol
 - [Architecture Decision Log Template](reference/architecture-decision-log-template.md) — ADR format and conventions
 - [Semantic Shortening Guide](guides/semantic-shortening-guide.md) — 3-part service naming formula and decision tree
 
+<a id="agent-templates-checklists"></a>
 ### Agent Templates & Checklists
 - [Prompt Validation Guide](guides/prompt-validation-guide.md) — pre-work validation checklist
 - [Requirements Intake Template](guides/requirements-intake-template.md) — capturing functional and non-functional needs
