@@ -5,7 +5,7 @@
 > **Created**: 2025-12-18
 > **Status**: Pending
 > **Scope**: 226 markdown files across the entire project
-> **Estimated effort**: 4-6 hours (AI-assisted)
+> **Effort**: Medium-Large (AI-assisted)
 
 ---
 
@@ -271,7 +271,7 @@ FILE="$1"
 echo "Checking links in: $FILE"
 
 # Extract all markdown links
-grep -oP '\]\([^)]+\)' "$FILE" | sed 's/](//' | sed 's/)$//' | while read link; do
+grep -Eo '\]\([^)]+\)' "$FILE" | sed 's/](//' | sed 's/)$//' | while read link; do
     # Skip external URLs
     if [[ "$link" == http* ]]; then
         echo "  [EXT] $link"
@@ -280,7 +280,7 @@ grep -oP '\]\([^)]+\)' "$FILE" | sed 's/](//' | sed 's/)$//' | while read link; 
 
     # Extract file path (before #)
     file_path=$(echo "$link" | cut -d'#' -f1)
-    anchor=$(echo "$link" | grep -oP '#.*' || echo "")
+    anchor=$(echo "$link" | grep -Eo '#.*' || echo "")
 
     # Get directory of current file for relative paths
     base_dir=$(dirname "$FILE")
@@ -397,15 +397,15 @@ What it should say
 
 ---
 
-## Execution Schedule
+## Execution Order
 
-| Day | Phases | Focus |
-|-----|--------|-------|
-| Day 1 | 1, 2 | Critical path (root + guides) |
-| Day 2 | 3, 4 | References + quality |
-| Day 3 | 5.1-5.3 | Atomic: architecture, services, integrations |
-| Day 4 | 5.4-5.7 | Atomic: infrastructure, observability, testing, others |
-| Day 5 | 6 + Review | Templates + final verification |
+| Priority | Phases | Focus |
+|----------|--------|-------|
+| First | 1, 2 | Critical path (root + guides) |
+| Second | 3, 4 | References + quality |
+| Third | 5.1-5.3 | Atomic: architecture, services, integrations |
+| Fourth | 5.4-5.7 | Atomic: infrastructure, observability, testing, others |
+| Last | 6 + Review | Templates + final verification |
 
 ---
 
