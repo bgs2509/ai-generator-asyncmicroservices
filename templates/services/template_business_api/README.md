@@ -1,6 +1,6 @@
 # FastAPI Business Service Template
 
-**Status**: 🚧 In Development
+**Status**: ✅ Complete (100%)
 **Purpose**: Business logic API service following the Improved Hybrid Approach
 
 ## Overview
@@ -10,12 +10,12 @@ This template provides a FastAPI-based business service that implements business
 ## Key Features
 
 - Business logic orchestration
-- HTTP-only data access (calls data services via HTTP)
-- Event publishing to RabbitMQ
-- Redis for caching and idempotency
+- HTTP-only data access via shared/http_clients (DataApiClient)
+- Event publishing to RabbitMQ via shared/rabbitmq (RabbitMQPublisher)
+- Request ID middleware via shared/middleware (RequestIdMiddleware)
+- Health check endpoints for Kubernetes probes
 - RESTful API design with OpenAPI documentation
-- Health check endpoints
-- Dependency injection with dishka
+- DRY-compliant: uses shared/ infrastructure
 
 ## Architecture Compliance
 
@@ -30,19 +30,45 @@ Following the mandatory Improved Hybrid Approach:
 
 ```
 template_business_api/
+├── Dockerfile              # Multi-stage build
+├── requirements.txt        # Dependencies
+├── README.md              # This file
 ├── src/
-│   ├── main.py              # FastAPI application entry point
-│   ├── config.py            # Configuration management
-│   ├── dependencies.py      # Dependency injection setup
-│   ├── services/            # Business logic services
-│   ├── schemas/             # Pydantic schemas
-│   ├── routers/             # API endpoints
-│   ├── clients/             # HTTP clients for data services
-│   └── events/              # Event publishing logic
-├── tests/                   # Unit and integration tests
-├── Dockerfile               # Container definition
-├── requirements.txt         # Dependencies
-└── README.md               # This file
+│   ├── __init__.py
+│   ├── main.py            # FastAPI application with lifespan
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py      # Pydantic Settings (comprehensive)
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── v1/
+│   │       ├── __init__.py
+│   │       └── health.py  # Health endpoints
+│   └── schemas/
+│       ├── __init__.py
+│       └── base.py        # Base response schemas
+└── tests/
+    ├── __init__.py
+    ├── conftest.py         # Imports shared.testing fixtures
+    └── test_health.py      # Health endpoint tests
+```
+
+## DRY Compliance
+
+This template uses shared infrastructure:
+
+```python
+# In src/main.py - imports from shared/
+from shared.utils.logger import create_logger
+from shared.middleware import RequestIdMiddleware
+from shared.http_clients import DataApiClient
+from shared.rabbitmq import RabbitMQPublisher
+
+# In tests/conftest.py - imports shared fixtures
+from shared.testing.base_fixtures import (
+    mock_data_client,
+    mock_rabbitmq_publisher,
+)
 ```
 
 ## Usage
@@ -50,51 +76,71 @@ template_business_api/
 When using this template:
 
 1. **Rename the service**: Replace `template_business_api` with your actual service name (e.g., `finance_lending_api`)
-2. **Configure integrations**: Update settings for Redis, RabbitMQ, and data services
-3. **Define business entities**: Create Pydantic schemas for your domain
-4. **Implement business logic**: Add service classes with business rules
-5. **Create API endpoints**: Define routers for your use cases
-6. **Set up event publishing**: Configure events for your domain
+2. **Configure integrations**: Update settings in .env for Redis, RabbitMQ, and data services
+3. **Define business entities**: Create Pydantic schemas in src/schemas/
+4. **Implement business logic**: Add service classes in src/services/ (create directory)
+5. **Create API endpoints**: Define routers in src/api/v1/
+6. **Set up event publishing**: Use app.state.publisher for event publishing
 
-## Example Endpoints
+## Example Endpoint Pattern
 
-- `GET /health` - Service health check
-- `GET /ready` - Dependencies readiness check
-- `POST /api/v1/{resource}` - Create resource (business logic)
-- `GET /api/v1/{resource}/{id}` - Get resource with business rules applied
-- `PUT /api/v1/{resource}/{id}` - Update with validation
-- `DELETE /api/v1/{resource}/{id}` - Delete with business checks
-- `POST /api/v1/{action}` - Execute business action
+```python
+# src/api/v1/users.py
+from fastapi import APIRouter, Request
+
+from shared.utils.logger import create_logger
+from src.schemas.user import UserCreate, UserResponse
+
+logger = create_logger(__name__)
+router = APIRouter(prefix="/users")
+
+
+@router.post("/", response_model=UserResponse)
+async def create_user(request: Request, user_in: UserCreate) -> UserResponse:
+    data_client = request.app.state.data_client
+    publisher = request.app.state.publisher
+
+    # Create via Data Service
+    result = await data_client.post("/users", user_in)
+
+    # Publish event
+    await publisher.publish(
+        "users",
+        "user.created",
+        {"user_id": result["id"]},
+    )
+
+    return UserResponse(**result)
+```
 
 ## Environment Variables
 
-```env
-SERVICE_PORT=8000
-LOG_LEVEL=INFO
+See `src/core/config.py` for full list. Key variables:
 
-# Data service URLs
-DATA_SERVICE_URL=http://data-postgres-api:8001
+```env
+PROJECT_NAME=MyApp
+ENVIRONMENT=development
+DEBUG=true
+LOG_LEVEL=info
+
+# API Configuration
+API_HOST=0.0.0.0
+API_PORT=8000
+
+# Data service URLs (HTTP-only access)
+POSTGRES_SERVICE_URL=http://data-postgres-api:8000
 
 # Redis configuration
 REDIS_URL=redis://redis:6379/0
 
 # RabbitMQ configuration
-RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-
-# API settings
-API_TIMEOUT_SECONDS=30
-MAX_RETRY_ATTEMPTS=3
+RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672/
 ```
 
-## Dependencies
+## Health Endpoints
 
-Key dependencies in requirements.txt:
-- FastAPI for web framework
-- dishka for dependency injection
-- httpx for HTTP client
-- aio-pika for RabbitMQ
-- redis for caching
-- pydantic for validation
+- `GET /api/v1/health/live` - Liveness probe (is process running?)
+- `GET /api/v1/health/ready` - Readiness probe (can serve traffic?)
 
 ## Related Documentation
 
@@ -102,7 +148,4 @@ Key dependencies in requirements.txt:
 - [Business Service Patterns](../../../docs/atomic/services/fastapi/)
 - [HTTP Communication](../../../docs/atomic/integrations/http-communication/)
 - [Event Publishing](../../../docs/atomic/integrations/rabbitmq/)
-
----
-
-**Note**: This is a template. Full implementation coming soon.
+- [Shared Components Guide](../../../docs/guides/shared-components.md)

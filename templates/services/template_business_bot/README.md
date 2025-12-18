@@ -1,6 +1,6 @@
 # Telegram Bot Service Template
 
-**Status**: 🚧 In Development
+**Status**: ✅ Complete (100%)
 **Purpose**: Aiogram-based Telegram bot for business logic
 
 ## Overview
@@ -14,15 +14,16 @@ This template provides an Aiogram 3.x based Telegram bot service following the f
 - Inline keyboards and callbacks
 - State management with FSM
 - Middleware for logging and auth
-- HTTP calls to data services
-- Integration with RabbitMQ for events
+- HTTP calls to data services via shared/http_clients
+- Integration with RabbitMQ via shared/rabbitmq
+- DRY-compliant: uses shared/ infrastructure
 
 ## Architecture Compliance
 
 Following the mandatory service separation:
 - Runs as separate container/process
-- Calls data services via HTTP only
-- Publishes events to RabbitMQ
+- Calls data services via HTTP only (DataApiClient)
+- Publishes events to RabbitMQ (RabbitMQPublisher)
 - No direct database access
 - Stateless design (state in Redis)
 
@@ -30,24 +31,55 @@ Following the mandatory service separation:
 
 ```
 template_business_bot/
+├── Dockerfile              # Multi-stage build
+├── requirements.txt        # Dependencies
+├── .env.example           # Environment variables template
+├── README.md              # This file
 ├── src/
-│   ├── main.py              # Bot entry point
-│   ├── config.py            # Configuration
-│   ├── bot.py              # Bot instance setup
-│   ├── handlers/            # Command and message handlers
-│   │   ├── commands.py     # /start, /help, etc.
-│   │   ├── messages.py     # Text message handlers
-│   │   └── callbacks.py    # Inline button callbacks
-│   ├── keyboards/           # Keyboard layouts
-│   ├── middleware/          # Custom middleware
-│   ├── states/              # FSM states
-│   ├── services/            # Business logic
-│   └── clients/             # HTTP clients for data services
-├── locales/                 # i18n translations
-├── tests/                   # Unit tests
-├── Dockerfile               # Container definition
-├── requirements.txt         # Dependencies
-└── README.md               # This file
+│   ├── __init__.py
+│   ├── main.py            # Bot entry point with lifespan
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py      # Pydantic Settings
+│   ├── bot/
+│   │   ├── __init__.py
+│   │   ├── handlers/       # Command and message handlers
+│   │   │   ├── __init__.py
+│   │   │   ├── start.py   # /start command
+│   │   │   ├── help.py    # /help command
+│   │   │   └── common.py  # Unknown message handler
+│   │   ├── middlewares/    # Custom middleware
+│   │   │   ├── __init__.py
+│   │   │   └── logging.py # Logging middleware
+│   │   ├── keyboards/      # Keyboard layouts
+│   │   │   ├── __init__.py
+│   │   │   └── inline.py  # Inline keyboard builders
+│   │   └── states/         # FSM states
+│   │       ├── __init__.py
+│   │       └── user_states.py
+│   └── infrastructure/     # Re-exports from shared/
+│       └── __init__.py
+└── tests/
+    ├── __init__.py
+    ├── conftest.py         # Imports shared.testing fixtures
+    └── test_handlers.py    # Handler tests
+```
+
+## DRY Compliance
+
+This template uses shared infrastructure:
+
+```python
+# In src/main.py - imports from shared/
+from shared.utils.logger import create_logger
+from shared.http_clients import DataApiClient
+from shared.rabbitmq import RabbitMQPublisher
+
+# In tests/conftest.py - imports shared fixtures
+from shared.testing.base_fixtures import (
+    mock_data_client,
+    mock_rabbitmq_publisher,
+)
 ```
 
 ## Usage
@@ -55,50 +87,48 @@ template_business_bot/
 When using this template:
 
 1. **Rename the service**: Replace `template_business_bot` with your actual service name (e.g., `healthcare_appointment_bot`)
-2. **Set bot token**: Configure TELEGRAM_BOT_TOKEN in environment
-3. **Define handlers**: Create command and message handlers
-4. **Setup keyboards**: Design user interaction flows
-5. **Implement business logic**: Add service layer methods
-6. **Configure data access**: Setup HTTP clients for data services
-
-## Example Handlers
-
-```python
-# /start command
-@router.message(CommandStart())
-async def start_handler(message: Message):
-    await message.answer("Welcome to the bot!")
-
-# Text message handler
-@router.message(F.text)
-async def text_handler(message: Message):
-    # Process text message
-    pass
-
-# Inline button callback
-@router.callback_query(F.data.startswith("action_"))
-async def callback_handler(callback: CallbackQuery):
-    # Handle button press
-    pass
-```
+2. **Set bot token**: Configure BOT_TOKEN in environment
+3. **Define handlers**: Create command and message handlers in src/bot/handlers/
+4. **Setup keyboards**: Design user interaction flows in src/bot/keyboards/
+5. **Define states**: Add FSM states for multi-step flows in src/bot/states/
+6. **Configure data access**: Use DataApiClient from shared/http_clients
 
 ## Environment Variables
 
 ```env
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-REDIS_URL=redis://redis:6379/0
-DATA_SERVICE_URL=http://template_data_postgres_api:8001
+# Bot Configuration
+BOT_TOKEN=your_telegram_bot_token_here
+BOT_WEBHOOK_SECRET=your_webhook_secret_here
+
+# Application Settings
+APP_NAME=template_business_bot
+APP_VERSION=1.0.0
+APP_ENV=development
+DEBUG=true
+
+# Data Service URL (HTTP-only access)
+DATA_API_URL=http://data-postgres-api:8000/api/v1
+
+# RabbitMQ Configuration
 RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+
+# Redis Configuration (for FSM storage)
+REDIS_URL=redis://redis:6379/0
+
+# Logging
 LOG_LEVEL=INFO
+LOG_FORMAT=json
+
+# Health Check Server
+HEALTH_CHECK_PORT=8080
 ```
 
 ## Bot Commands
 
 - `/start` - Initialize bot interaction
 - `/help` - Show available commands
-- `/menu` - Display main menu
-- `/cancel` - Cancel current operation
-- `/status` - Check service status
+
+Add your custom commands by creating new handler files.
 
 ## Related Documentation
 
@@ -106,7 +136,4 @@ LOG_LEVEL=INFO
 - [Redis Integration](../../../docs/atomic/integrations/redis/)
 - [RabbitMQ Events](../../../docs/atomic/integrations/rabbitmq/)
 - [HTTP Communication](../../../docs/atomic/integrations/http-communication/)
-
----
-
-**Note**: This is a template. Full implementation coming soon.
+- [Shared Components Guide](../../../docs/guides/shared-components.md)

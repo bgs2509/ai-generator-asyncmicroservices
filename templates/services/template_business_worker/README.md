@@ -1,6 +1,6 @@
 # AsyncIO Worker Service Template
 
-**Status**: 🚧 In Development
+**Status**: ✅ Complete (100%)
 **Purpose**: Background task processing with AsyncIO and RabbitMQ
 
 ## Overview
@@ -10,20 +10,19 @@ This template provides an AsyncIO-based background worker service for processing
 ## Key Features
 
 - Pure AsyncIO implementation
-- RabbitMQ consumer with aio-pika
-- Task retry logic with exponential backoff
-- Dead letter queue handling
+- RabbitMQ consumer via shared/rabbitmq
+- Task routing by event type
 - Graceful shutdown handling
-- HTTP calls to data services
+- HTTP calls to data services via shared/http_clients
 - Structured logging with correlation IDs
-- Health check endpoint
+- DRY-compliant: uses shared/ infrastructure
 
 ## Architecture Compliance
 
 Following the mandatory service separation:
 - Runs as separate container/process
-- Consumes messages from RabbitMQ
-- Calls data services via HTTP only
+- Consumes messages from RabbitMQ (RabbitMQConsumer)
+- Calls data services via HTTP only (DataApiClient)
 - No direct database access
 - Stateless processing
 
@@ -31,24 +30,43 @@ Following the mandatory service separation:
 
 ```
 template_business_worker/
+├── Dockerfile              # Multi-stage build
+├── requirements.txt        # Dependencies
+├── .env.example           # Environment variables template
+├── README.md              # This file
 ├── src/
-│   ├── main.py              # Worker entry point
-│   ├── config.py            # Configuration
-│   ├── worker.py            # Main worker class
-│   ├── consumers/           # Message consumers
-│   │   ├── base.py         # Base consumer class
-│   │   └── task_consumer.py # Task-specific consumers
-│   ├── processors/          # Business logic processors
-│   │   └── task_processor.py
-│   ├── clients/             # HTTP clients for data services
-│   ├── utils/               # Utility functions
-│   │   ├── retry.py        # Retry logic
-│   │   └── logging.py      # Structured logging
-│   └── health.py           # Health check server
-├── tests/                   # Unit tests
-├── Dockerfile               # Container definition
-├── requirements.txt         # Dependencies
-└── README.md               # This file
+│   ├── __init__.py
+│   ├── main.py            # Worker entry point with lifespan
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py      # Pydantic Settings
+│   └── worker/
+│       ├── __init__.py
+│       ├── task_processor.py  # Routes messages to handlers
+│       └── handlers/
+│           ├── __init__.py
+│           └── example_handler.py  # Example event handlers
+└── tests/
+    ├── __init__.py
+    ├── conftest.py         # Imports shared.testing fixtures
+    └── test_task_processor.py
+```
+
+## DRY Compliance
+
+This template uses shared infrastructure:
+
+```python
+# In src/main.py - imports from shared/
+from shared.utils.logger import create_logger
+from shared.http_clients import DataApiClient
+from shared.rabbitmq import RabbitMQConsumer
+
+# In tests/conftest.py - imports shared fixtures
+from shared.testing.base_fixtures import (
+    mock_data_client,
+    mock_rabbitmq_consumer,
+)
 ```
 
 ## Usage
@@ -56,78 +74,67 @@ template_business_worker/
 When using this template:
 
 1. **Rename the service**: Replace `template_business_worker` with your actual service name (e.g., `finance_lending_worker`)
-2. **Configure RabbitMQ**: Set connection parameters and queues
-3. **Define consumers**: Create message consumers for your queues
-4. **Implement processors**: Add business logic for task processing
-5. **Setup data access**: Configure HTTP clients for data services
-6. **Handle errors**: Implement retry and dead letter strategies
+2. **Configure RabbitMQ**: Set RABBITMQ_URL and QUEUE_NAME in environment
+3. **Define handlers**: Create event handlers in src/worker/handlers/
+4. **Register handlers**: Add handlers to TaskProcessor._handlers dict
+5. **Implement business logic**: Process events with DataApiClient
 
-## Example Consumer
+## Event Handler Pattern
 
 ```python
-class TaskConsumer(BaseConsumer):
-    async def process_message(self, message: IncomingMessage):
-        async with message.process():
-            try:
-                # Parse message
-                data = json.loads(message.body.decode())
-
-                # Process task
-                result = await self.processor.process(data)
-
-                # Call data service
-                await self.data_client.save_result(result)
-
-                # Acknowledge message
-                await message.ack()
-            except Exception as e:
-                # Retry or send to DLQ
-                await self.handle_error(message, e)
+# src/worker/handlers/your_handler.py
+async def handle_your_event(
+    message: dict[str, Any],
+    data_client: DataApiClient,
+) -> None:
+    entity_id = message.get("entity_id")
+    # Fetch data from Data Service
+    entity = await data_client.get(f"/entities/{entity_id}")
+    # Perform business logic
+    # ...
 ```
 
 ## Environment Variables
 
 ```env
+# Application Settings
+APP_NAME=template_business_worker
+APP_VERSION=1.0.0
+APP_ENV=development
+DEBUG=true
+
+# Queue Configuration
+QUEUE_NAME=default_queue
+
+# Data Service URL (HTTP-only access)
+DATA_API_URL=http://data-postgres-api:8000/api/v1
+
+# RabbitMQ Configuration
 RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-QUEUE_NAME=task_queue
-DLQ_NAME=task_dlq
-DATA_SERVICE_URL=http://template_data_postgres_api:8001
-MAX_RETRIES=3
-RETRY_DELAY=5
+
+# Redis Configuration
+REDIS_URL=redis://redis:6379/0
+
+# Logging
 LOG_LEVEL=INFO
-HEALTH_CHECK_PORT=8003
+LOG_FORMAT=json
+
+# Worker Settings
+PREFETCH_COUNT=10
+MAX_RETRIES=3
+RETRY_DELAY_SECONDS=5
 ```
 
-## Queue Configuration
+## Graceful Shutdown
 
-```yaml
-Queues:
-  - task_queue:
-      durable: true
-      arguments:
-        x-dead-letter-exchange: dlx
-        x-dead-letter-routing-key: task_dlq
-        x-message-ttl: 3600000
-
-  - task_dlq:
-      durable: true
-      arguments:
-        x-message-ttl: 86400000
-```
-
-## Health Check
-
-The worker exposes a simple HTTP health endpoint:
-- `GET /health` - Returns 200 if worker is running
-- `GET /ready` - Returns 200 if RabbitMQ connection is active
+The worker handles SIGTERM and SIGINT signals for graceful shutdown:
+- Stops consuming new messages
+- Waits for current message processing to complete
+- Closes connections cleanly
 
 ## Related Documentation
 
 - [AsyncIO Workers](../../../docs/atomic/services/asyncio-workers/)
 - [RabbitMQ Integration](../../../docs/atomic/integrations/rabbitmq/)
 - [HTTP Communication](../../../docs/atomic/integrations/http-communication/)
-- Error Handling Patterns - See framework documentation
-
----
-
-**Note**: This is a template. Full implementation coming soon.
+- [Shared Components Guide](../../../docs/guides/shared-components.md)
