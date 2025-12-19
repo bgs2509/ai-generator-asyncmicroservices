@@ -41,7 +41,7 @@
 
 ## Critical Rules Snapshot
 
-1. **Requirements Coverage**: **100% requirement coverage MANDATORY** — ALL requirements from Stage 2 must be implemented by Stage 5 (or explicitly descoped with approval). Use Req ID tracking (FR-*, UI-*, NF-*) throughout workflow (`docs/guides/requirements-traceability-guide.md`).
+1. **Requirements Coverage**: **100% requirement coverage MANDATORY** — ALL requirements from Stage 2 must be implemented by Stage 5 (or explicitly descoped with approval). Use Req ID tracking (FR-*, UI-*, NF-*) throughout workflow (`docs/guides/requirements-traceability-guide.md`). Note: This is separate from **test coverage** thresholds (60-85% depending on maturity level) — see `docs/reference/maturity-levels.md`.
 2. **Service Separation**: FastAPI, Aiogram, and AsyncIO workers run in separate processes/containers (`docs/atomic/architecture/service-separation-principles.md`).
 3. **Data Access**: Business services must call data services over HTTP; direct database access is prohibited (`docs/atomic/architecture/data-access-architecture.md`).
 4. **API Gateway**: Nginx is MANDATORY for production deployments (TLS, load balancing, rate limiting) (`docs/atomic/infrastructure/api-gateway/`).
@@ -64,7 +64,7 @@
 
 **Navigation**: Use `docs/reference/ai-navigation-matrix.md` for exact document mapping at each stage.
 
-**Maturity Levels**: 4 levels from PoC (~5 min) to Production (~30 min). See `docs/reference/maturity-levels.md` for details.
+**Maturity Levels**: 4 levels from PoC (~5-7 min) to Production (~25-35 min). See `docs/reference/maturity-levels.md` for details.
 
 ## Maintenance
 
