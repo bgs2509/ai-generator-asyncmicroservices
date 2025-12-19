@@ -78,12 +78,22 @@ When AI requests clarification for missing mandatory fields:
      • Maturity Level: Choose 1 (PoC) if unsure - can upgrade later
      • Optional Modules: Choose "none" if uncertain - can add later
      ```
+   - Warning: "Please provide this information to proceed"
+
+4. **Third Attempt** (after second timeout)
+   - Final simplified request with binary choices where possible
+   - Example:
+     ```
+     Final Request - Please choose:
+     • Maturity Level: 1 (quick prototype) or 4 (production-ready)?
+     • Do you need a Telegram bot? Yes / No
+     ```
    - Final warning: "Without this information, workflow cannot proceed"
 
-4. **Third Attempt Decision**
-   - If still no valid response after second attempt:
+5. **Termination Decision**
+   - If still no valid response after third attempt:
      - **TERMINATE** workflow gracefully
-     - Log termination reason: "Workflow terminated: User did not provide required information after 2 clarification attempts"
+     - Log termination reason: "Workflow terminated: User did not provide required information after 3 clarification attempts"
      - Send termination summary to user:
        ```
        ## ⚠️ Workflow Terminated
@@ -127,9 +137,10 @@ If user provides **partial** or **ambiguous** information:
 | Attempt | Wait Time | Notes |
 |---------|-----------|-------|
 | After 1st request | Implementation-dependent | In interactive CLI: wait for user input<br>In async environments: configurable timeout |
-| After 2nd request | Implementation-dependent | Shorter than first timeout<br>Signal urgency to user |
+| After 2nd request | Implementation-dependent | Same as first timeout |
+| After 3rd request | Implementation-dependent | Shorter timeout<br>Signal urgency to user |
 
-**Note**: Exact timeout values are implementation-specific (CLI vs web UI vs API). The principle is: 2 clarification attempts maximum, then terminate gracefully.
+**Note**: Exact timeout values are implementation-specific (CLI vs web UI vs API). The principle is: 3 clarification attempts maximum, then terminate gracefully.
 
 ## Integration With Agent Workflow
 

@@ -89,6 +89,7 @@ Common anti-patterns encountered in production, documented with symptoms and sol
 
 <a id="agent-templates-checklists"></a>
 ### Agent Templates & Checklists
+- [Analyst Workflow Guide](guides/analyst-workflow.md) — focused Stage 0-1 workflow for Analyst role
 - [Prompt Validation Guide](guides/prompt-validation-guide.md) — pre-work validation checklist
 - [Requirements Intake Template](guides/requirements-intake-template.md) — capturing functional and non-functional needs
 - [Implementation Plan Template](guides/implementation-plan-template.md) — planning artefact for approvals

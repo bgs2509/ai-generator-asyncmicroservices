@@ -2,6 +2,20 @@
 
 > **PURPOSE**: Establish a systematic approach to track every requirement from initial user prompt through implementation to final delivery, guaranteeing 100% coverage without exceptions. Critical for large, detailed UX/UI prompts with 50+ requirements.
 
+## Role Boundaries
+
+> **IMPORTANT**: This document spans multiple AIDD roles. Use the markers below to identify your scope.
+
+| Stage | Primary Role | What They Do |
+|-------|--------------|--------------|
+| Stage 0-1 | - | RTM not yet created |
+| **Stage 2** | **🔵 Analyst** | Creates Req IDs (FR-*, UI-*, NF-*), documents requirements |
+| Stage 3-6 | 🟢 Architect / Implementer | Maps Req IDs to tasks, implements, verifies coverage |
+
+**Quick Guide**:
+- **Analyst**: Read up to and including "Stage 2: Requirements Intake" section
+- **Architect/Implementer**: Read entire document
+
 ## Table of Contents
 
 - [What is Requirements Traceability?](#what-is-requirements-traceability)
@@ -118,6 +132,9 @@ NUMBER: 001, 002, 003, ... (zero-padded, 3 digits)
 - **AI Action**: Ensure prompt contains detailed requirements (foundation for RTM)
 
 ### Stage 2: Requirements Intake
+
+> **🔵 ANALYST SCOPE**: This is the primary stage for Analyst role. Analyst creates Req IDs and documents requirements here. **Analyst stops after this stage.**
+
 - **RTM Status**: ✅ **CREATED**
 - **AI Action**:
   1. Extract all requirements from user prompt
@@ -130,6 +147,12 @@ NUMBER: 001, 002, 003, ... (zero-padded, 3 digits)
      - Acceptance Criteria
      - Implementation Status = **Pending**
   4. Count total requirements for coverage tracking
+
+---
+
+> **🟢 ARCHITECT/IMPLEMENTER SCOPE**: The following stages (3-6) are handled by Architect and Implementer roles. Analyst does NOT proceed beyond this point.
+
+---
 
 ### Stage 3: Architecture Mapping & Planning
 - **RTM Status**: ✅ **MAPPED TO TASKS**
